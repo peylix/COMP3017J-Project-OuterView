@@ -1,2 +1,11 @@
-# COMP3017J-Project-Outerview
-COMP3017J Project: An online technical interview platform for interviewers and interviewees to write, run and debug code together in an elegant manner.
+# Outerview (Tentative name)
+### An online technical interview platform for interviewers and interviewees to write, run and debug code together in an elegant manner.
+
+*Group members:*
+*Jiehongxu Wu*
+*Sichen Li*
+*Te Qi*
+*Tongyu Wu*
+*Ziqin Ma*
+*(in alphabetical order)*
+
