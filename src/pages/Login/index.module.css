@@ -1,0 +1,32 @@
+body {
+    background-color: aqua;
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 500px;
+    height: 300px;
+    background-color: white;
+    padding: 50px;
+}
+
+.title {
+    font-size: 32px;
+    text-align: center;
+}
+
+.subTitle {
+    font-size: 24px;
+    margin-bottom: 16px;
+    text-align: center;
+}
