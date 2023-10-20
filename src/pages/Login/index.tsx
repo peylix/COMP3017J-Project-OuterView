@@ -85,6 +85,7 @@ export const Login = () => {
                             <Link onClick={() => setIdentity((cur) => identities.filter((i) => i !== cur)[0])}>Switch User/Administor</Link>
                         </div>
                     </Space>
+                    <Link href="/viewPage">adw</Link>
                 </Form>
             </div>
         </div >

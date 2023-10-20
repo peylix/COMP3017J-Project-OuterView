@@ -1,0 +1,30 @@
+.meeting{
+    display: flex;
+    height:90px;
+    width: 950px;
+    border: 2px solid black;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+.title{
+    position: absolute;
+    left: 450px;
+    font-weight:bold;
+}
+.arcoIcon { 
+    position: absolute;
+    left: 830px;
+    width: 200px;
+    height: 80px;
+    stroke-linecap: round; 
+    stroke-width: 5; 
+}
+.info{
+    position: relative;
+    top: -20px;
+}
+.p{
+    font-size: 15px;
+    font-weight:bold;
+}
