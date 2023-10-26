@@ -12,7 +12,7 @@ Group members (in alphabetical order):
 
 ### 安装依赖
 
-```npm i ```
+```yarn install ```
 
 ### 开发模式
 * 前端

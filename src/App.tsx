@@ -5,6 +5,8 @@ import { Main } from './pages/Main'
 import { ViewPage } from './pages/ViewPage'
 import { ConferenceInformation } from './pages/ConferenceInformation'
 import { ReservationPage } from './pages/ReservationPage'
+import { Interview } from './pages/Interview'
+
 function App() {
 
   return (
@@ -17,6 +19,7 @@ function App() {
         <Route path="/conferenceInformation" Component={ConferenceInformation} />
         <Route path="/reservationPage" Component={ReservationPage} />
 
+        <Route path="/interview/room" Component={Interview} />
       </Routes>
     </BrowserRouter>
   )
