@@ -1,5 +1,4 @@
 from flask_sqlalchemy import SQLAlchemy
 
-# 不需要传入app
-
+# Initialize the SQLAlchemy extension without passing the Flask app instance
 db = SQLAlchemy()
