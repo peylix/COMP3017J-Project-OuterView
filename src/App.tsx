@@ -6,13 +6,24 @@ import { ViewPage } from './pages/ViewPage'
 import { ConferenceInformation } from './pages/ConferenceInformation'
 import { ReservationPage } from './pages/ReservationPage'
 import { Interview } from './pages/Interview'
+import { useEffect } from 'react'
 
 function App() {
-
+  useEffect(() => {
+    navigator.serviceWorker
+      .register('/react-py-sw.js')
+      .then((registration) =>
+        console.log(
+          'Service Worker registration successful with scope: ',
+          registration.scope
+        )
+      )
+      .catch((err) => console.log('Service Worker registration failed: ', err))
+  }, [])
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" Component={Login} />
+        <Route path="/" Component={Interview} />
         <Route path="/register" Component={Register} />
         <Route path="/main" Component={Main} />
         <Route path="/viewPage" Component={ViewPage} />
