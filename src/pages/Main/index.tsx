@@ -11,5 +11,5 @@ export const Main = () => {
     }, [])
 
 
-    return <>fuck u</>
+    return <></>
 }
