@@ -1,6 +1,14 @@
-from exts import db
+"""
+Models for "Reservation". 
+"""
+from datetime import datetime
 
+from sqlalchemy import ForeignKey, CheckConstraint
 
+from .user_models import User
+from ..exts import db
+
+    
 # Create a Reservation class that corresponds to the 'reservation' table in the database
 class Reservation(db.Model):
     __tablename__ = 'reservation'
@@ -16,14 +24,8 @@ class Reservation(db.Model):
     # Define the relationship with ReservationDate
     dates = db.relationship('ReservationDate', backref='reservation', lazy=True)
 
-    # Constructor to initialize object attributes
-    def __init__(self, name, startTimeLimit, endTimeLimit, userId, detail):
-        self.name = name
-        self.startTimeLimit = startTimeLimit
-        self.endTimeLimit = endTimeLimit
-        self.userId = userId
-        self.detail = detail
-
+    def __repr__(self):
+        return f'{self.id} + {self.userId}'
 
 # Create a ReservationDate class that corresponds to the 'reservation_date' table in the database
 class ReservationDate(db.Model):
@@ -34,7 +36,5 @@ class ReservationDate(db.Model):
     reservation_id = db.Column(db.Integer, db.ForeignKey('reservation.id'), nullable=False)
     date = db.Column(db.Date, default=None)
 
-    # Constructor to initialize object attributes
-    def __init__(self, reservation_id, date=None):
-        self.reservation_id = reservation_id
-        self.date = date
+    def __repr__(self):
+        return f'{self.id} + {self.reservation_id}'
