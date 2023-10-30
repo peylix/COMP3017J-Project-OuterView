@@ -10,7 +10,7 @@ Group members (in alphabetical order):
 
 
 
-### 安装依赖
+### 前端安装依赖
 
 ```yarn install ```
 

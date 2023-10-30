@@ -31,4 +31,4 @@ api/App/models/__pycache__/
 api/App/utils/__pycache__/
 api/App/views/__pycache__/
 api/migrations/
-
+api/.venv

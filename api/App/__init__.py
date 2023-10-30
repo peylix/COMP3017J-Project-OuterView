@@ -23,7 +23,7 @@ def create_app():
     # Configure the database
     # user_info = read_database()
     USERNAME = "root"
-    PASSWORD = "Lsc20033002-"
+    PASSWORD = "123456"
     HOSTNAME = 'localhost'
     PORT = '3306'
     DATABASE = 'outerview'
