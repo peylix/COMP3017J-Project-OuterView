@@ -1,5 +1,5 @@
-# Outerview (Tentative name)
-### An online technical interview platform for interviewers and interviewees to write, run and debug code together in an elegant manner.
+# Outerview
+### *An online technical interview platform for interviewers and interviewees to write, run and debug code together in an elegant manner.*
 
 Group members (in alphabetical order): 
 + Jiehongxu Wu (吴界红旭), 
