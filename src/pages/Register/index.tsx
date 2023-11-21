@@ -117,7 +117,6 @@ export const Register = () => {
                         {/* Jump to the login page and post the register message */}
                         <Space style={{ display: 'flex', justifyContent: 'center' }}>
                             <div style={{ width: 300, display: 'flex', justifyContent: 'center' }}>
-                                <Link onClick={() => setIdentity((cur) => identities.filter((i) => i !== cur)[0])}>Switch User/Administor</Link>
                             </div>
                         </Space>
                     </Form>

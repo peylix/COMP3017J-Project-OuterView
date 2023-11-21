@@ -23,8 +23,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" Component={Login} />
+        <Route path="/" Component={Main} />
         <Route path="/register" Component={Register} />
+        <Route path="/login" Component={Login} />
         <Route path="/main" Component={Main} />
         <Route path="/viewPage" Component={ViewPage} />
         <Route path="/conferenceInformation" Component={ConferenceInformation} />

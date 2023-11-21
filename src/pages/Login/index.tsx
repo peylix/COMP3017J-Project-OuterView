@@ -100,7 +100,6 @@ export const Login = () => {
                         {/* Jump to the registration page and switch current identity */}
                         <div className={'flex justify-between items-center'}>
                             <Link onClick={() => navigator('/register')}>Register</Link>
-                            <Link style={{ color: '#FF7D00' }} onClick={() => setIdentity((cur) => identities.filter((i) => i !== cur)[0])}>Switch User/Administor</Link>
                             <Link href="/viewPage">adw</Link>
                         </div>
                     </Form>
