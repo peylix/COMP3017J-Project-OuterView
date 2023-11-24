@@ -5,9 +5,6 @@ import { useState } from "react";
 import { postUserLogin } from "../../service/api";
 const FormItem = Form.Item;
 export const Login = () => {
-    // Regarding the status of the input user ID and password
-    const identities = ['User', 'Administor']
-    const [identity, setIdentity] = useState<string>('User')
     const [userId, setUserID] = useState<string>('')
     const [password, setPassword] = useState<string>('')
 
@@ -62,7 +59,7 @@ export const Login = () => {
                     <div className={'text-4xl '}>COMP3017J-Project-Outerview</div>
                     <Divider />
                     {/* Switch between user login or administrator login based on different identities */}
-                    <div className={'text-base mb-4'}>{`${identity} Login`}</div>
+                    <div className={'text-base mb-4'}>{`User Login`}</div>
                     {/* The form used for login, including some rules (required) */}
                     <Form form={form} onChange={(v) => handleInput(v)} autoComplete='off' className={'w-5/6 flex justify-start'} >
                         <FormItem field='userId' className={'flex justify-center'} rules={[{

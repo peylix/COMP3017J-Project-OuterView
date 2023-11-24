@@ -1,17 +1,19 @@
+
+const getConfig = (method: string, params: Record<string, any>) => ({
+    method: method,
+    headers: {
+        "Content-Type": "application/json",
+    },
+    body: JSON.stringify(params),
+})
+
 export const postUserLogin = async (params: {
     userId: string;
     password: string;
     auth: '0' | '1';
 }) => {
     // 接口前加个/api
-    const res = await fetch('api/user/login', {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(params),
-    })
-    return res
+    return await fetch('api/user/login', getConfig('POST', params))
 }
 
 export const postUserRegister = async (params: {
@@ -20,22 +22,44 @@ export const postUserRegister = async (params: {
     name: string;
     auth: '0' | '1'
 }) => {
-    const res = await fetch('api/user/register', {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(params)
-    })
-    return res
+    return await fetch('api/user/register', getConfig('POST', params))
 }
 
-export const getAllReservation = async (): Promise<Response> => {
-    const res = await fetch('api/reservation/all', {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        }
+export const getUserMeetings = async (params: {
+    userId: string
+}) => {
+    return await fetch(`api/userMeetings?userId=${params.userId}`,
+        {
+            method: "GET",
+        })
+}
+
+
+export const postJoinMeetings = async (params: {
+    meetingId: string;
+    userId: string;
+}) => {
+    return await fetch(`api/joinMeetings`, getConfig('POST', params))
+}
+
+
+export const deleteMeeting = async (params: { meetingId: string }) => {
+    return await fetch('api/deleteMeeting', getConfig('DELETE', params))
+}
+
+
+export const postCreateMeeting = async (params: {
+    continue: number;
+    invitees: string[];
+    name: string;
+    start: number;
+}) => {
+    return await fetch('api/createMeeting', getConfig('POST', params))
+}
+
+
+export const getInterviewees = async () => {
+    return await fetch('api/interviewees', {
+        method: "GET"
     })
-    return res
 }
