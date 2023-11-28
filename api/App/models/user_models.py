@@ -13,7 +13,7 @@ class User(db.Model):
     userId = db.Column(db.String(255), primary_key=True)
     password = db.Column(db.String(255), nullable=False)
     name = db.Column(db.String(255), default=None)
-    auth = db.Column(db.Integer(), default=None, comment='0: user, 1: administor')
+    auth = db.Column(db.Integer(), default=None, comment='0: interviewee, 1: interviewer')
 
 
 

@@ -9,17 +9,22 @@ from ..models.reservation_models import *
 reservation_blue = Blueprint('reservation', __name__, url_prefix = '/reservation')
 
 
-@reservation_blue.route('/reservation/all', methods=['GET'])
-def get_all_reservations():
+@reservation_blue.route('/get_reservations', methods=['GET'])
+def get_reservations():
     try:
         data = request.json
         if data is None:
             return jsonify({"error": "JSON data not provided"}), 400
         page = data.get('page')
         per_page = data.get('per_page')
+        user_id = data.get('user_id')
 
-        # Retrieve all reservations from the database
-        reservations = Reservation.query.all()
+        if user_id is not '': 
+            # Retrieve reservations of a particular user
+            reservation = Reservation.query.filter(userId = user_id)
+        else:
+            # Retrieve all reservations from the database
+            reservations = Reservation.query.all()
 
         reservations_data = []
         for reservation in reservations:

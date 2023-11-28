@@ -102,17 +102,37 @@ def user_info():
     try:
         data = request.json
         if data is None:
-            return jsonify({"error": "JSON data not provided"}), 400
+            return jsonify({'error': 'JSON data not provided'}), 400
         user_id = data.get('userId')
         user = User.query.filter_by(userId=user_id).first()
         if user is None:
-            return jsonify({'error': 'Does not find the user.'}), 404
+            return jsonify({'error': 'User not found'}), 404
         user_data = {
-        'userId': new_user.userId,
-        'name': new_user.name,
-        'auth': new_user.auth
-    }
+            'userId': user.userId,
+            'name': user.name,
+            'auth': user.auth
+            }
         return jsonify(user_data), 200
     except Exception as e:
         print(e)
         return jsonify({'error': 'An error occurred.'}), 500
+    
+@user_blue.route('/get_interviewees/', methods=['GET'])
+def get_interviewees():
+    try:
+        users = User.query.filter_by(auth=0)
+        user_list = []
+        for user in users:
+            user_data = {
+                'userId': user.userId,
+                'name': user.name
+            }
+            user_list.append(user_data)
+        response_data = {
+            'user_num': len(user_list),
+            'user_data': user_data
+        }
+        return jsonify(response_data), 200
+    except Exception as e:
+        print(e)
+        return jsonify({'error': 'An error occurred'}), 500
