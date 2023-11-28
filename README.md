@@ -1,4 +1,4 @@
-# Outerview
+# OuterView
 ### *An online technical interview platform for interviewers and interviewees to write, run and debug code together in an elegant manner.*
 
 Group members (in alphabetical order): 
