@@ -5,6 +5,7 @@ from flask import Flask
 from dotenv import load_dotenv
 from .views.user_views import user_blue
 from .views.reservation_views import reservation_blue
+from .utils.database_utils import read_database;
 from .exts import init_exts
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Project root directory
@@ -22,8 +23,9 @@ def create_app():
     app.config['SECRET_KEY'] = '123'  # Configure the session secret
     # Configure the database
     # user_info = read_database()
-    USERNAME = "root"
-    PASSWORD = "123456"
+    user_info = read_database()
+    USERNAME = user_info[0]
+    PASSWORD = user_info[1]
     HOSTNAME = 'localhost'
     PORT = '3306'
     DATABASE = 'outerview'
@@ -41,10 +43,10 @@ def create_app():
     return app
 
 
-def read_database():
-    user_info = []
-    with open('api/App/utils/database.txt', 'r', encoding='utf-8') as f:
-        for token in f.readlines():
-            token = token.strip("\n")
-            user_info.append(token)
-    return user_info
+# def read_database():
+#     user_info = []
+#     with open('api/App/utils/database.txt', 'r', encoding='utf-8') as f:
+#         for token in f.readlines():
+#             token = token.strip("\n")
+#             user_info.append(token)
+#     return user_info
