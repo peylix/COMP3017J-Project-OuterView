@@ -19,23 +19,26 @@ def get_reservations():
         per_page = data.get('per_page')
         user_id = data.get('user_id')
 
-        if user_id is not '': 
+
+        if user_id != '': 
             # Retrieve reservations of a particular user
-            reservation = Reservation.query.filter(userId = user_id)
+            reservations = Reservation.query.join(Participant, Reservation.id == Participant.reservation_id).filter(Participant.user_id == user_id, Participant.role == 0).all()    
         else:
             # Retrieve all reservations from the database
             reservations = Reservation.query.all()
 
         reservations_data = []
+
         for reservation in reservations:
             if reservation.detail and isinstance(reservation.detail, bytes):
                 reservation.detail = reservation.detail.decode('utf-8')
+            reservation_user_id = [participant.user_id for participant in reservation.participants if participant.role == 0]
             reservation_data = {
                 'id': reservation.id,
                 'name': reservation.name,
-                'startTimeLimit': reservation.startTimeLimit.strftime('%H:%M'),
-                'endTimeLimit': reservation.endTimeLimit.strftime('%H:%M'),
-                'userId': reservation.userId,
+                'startTimeLimit': reservation.start_time_limit.strftime('%H:%M'),
+                'endTimeLimit': reservation.end_time_limit.strftime('%H:%M'),
+                'userId': reservation_user_id,
                 'detail': reservation.detail,
                 'dates': [date.date.strftime('%Y-%m-%d') for date in reservation.dates]
             }

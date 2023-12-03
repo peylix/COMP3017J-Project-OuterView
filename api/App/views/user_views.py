@@ -30,13 +30,13 @@ def post_user_login():
 
 
     # Search for the user in the database
-    user = User.query.filter_by(userId=user_id).first()
+    user = User.query.filter_by(user_id=user_id).first()
 
     if user:
         # Validate password and auth
         if user.password == password and user.auth == int(auth):
             user_data = {
-                'userId': user.userId,
+                'userId': user.user_id,
                 'name': user.name,
                 'auth': user.auth
             }
@@ -60,18 +60,18 @@ def post_user_register():
 
 
     # Check if the user already exists
-    existing_user = User.query.filter_by(userId=user_id).first()
+    existing_user = User.query.filter_by(user_id=user_id).first()
 
     if existing_user:
         return jsonify({'message': 'User already exists'}), 400
 
     # Create a new user
-    new_user = User(userId=user_id, password=password, name=name, auth=auth)
+    new_user = User(user_id=user_id, password=password, name=name, auth=auth)
     db.session.add(new_user)
     db.session.commit()
 
     user_data = {
-        'userId': new_user.userId,
+        'userId': new_user.user_id,
         'name': new_user.name,
         'auth': new_user.auth
     }
@@ -87,7 +87,7 @@ def logout():
         user_id = data.get('userId')
         if user_id is None:
             return jsonify({'is_logged_in': False}), 401  # No user is currently logged in
-        user = User.query.filter_by(userId=user_id).first()
+        user = User.query.filter_by(user_id=user_id).first()
         if user is None:
             return jsonify({'error': 'The user does not exist.'}), 404  # The user does not exist
 
@@ -104,11 +104,11 @@ def user_info():
         if data is None:
             return jsonify({'error': 'JSON data not provided'}), 400
         user_id = data.get('userId')
-        user = User.query.filter_by(userId=user_id).first()
+        user = User.query.filter_by(user_id=user_id).first()
         if user is None:
             return jsonify({'error': 'User not found'}), 404
         user_data = {
-            'userId': user.userId,
+            'userId': user.user_id,
             'name': user.name,
             'auth': user.auth
             }
@@ -124,7 +124,7 @@ def get_interviewees():
         user_list = []
         for user in users:
             user_data = {
-                'userId': user.userId,
+                'userId': user.user_id,
                 'name': user.name
             }
             user_list.append(user_data)
