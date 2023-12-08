@@ -97,7 +97,7 @@ export const Login = () => {
                         {/* Jump to the registration page and switch current identity */}
                         <div className={'flex justify-between items-center'}>
                             <Link onClick={() => navigator('/register')}>Register</Link>
-                            <Link href="/viewPage">adw</Link>
+                            {/* <Link href="/viewPage">adw</Link> */}
                         </div>
                     </Form>
                 </div>

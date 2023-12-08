@@ -23,7 +23,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" Component={ViewPage} />
+        <Route path="/" Component={Interview} />
         <Route path="/register" Component={Register} />
         <Route path="/login" Component={Login} />
         <Route path="/main" Component={Main} />
