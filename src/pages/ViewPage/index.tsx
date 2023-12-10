@@ -1,6 +1,6 @@
-import { Avatar, Space, Button, Message } from '@arco-design/web-react';
+import { Space, Button, Message } from '@arco-design/web-react';
 import styled from './index.module.css';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Information } from './Info/info';
 import { useEffect, useState } from 'react';
 import { IMeeting, IUserInfo, Identity } from './interface';
@@ -9,6 +9,7 @@ import { getUserMeetings } from '../../service/api';
 
 
 export const ViewPage = () => {
+    const {state} = useLocation();
     const navigator = useNavigate();
 
 
@@ -40,7 +41,7 @@ export const ViewPage = () => {
 
     useEffect(() => {
         getMeetingsReq()
-    }, [userInfo])
+    }, [userInfo, state.refresh])
 
     return (
         <div className={styled.back}>

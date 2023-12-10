@@ -1,8 +1,12 @@
-import { Button, Space, Input, Select } from '@arco-design/web-react';
+import { Button, Space, Input, Select, Message } from '@arco-design/web-react';
 import styled from './index.module.css';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { postCreateMeeting } from '../../service/api';
+import { useState } from 'react';
+import { LabeledValue } from '@arco-design/web-react/es/Select/interface';
 
 export const ReservationPage = () => {
+    const {state} = useLocation();
     const navigator = useNavigate();
     const Option = Select.Option;
     const months: number[] = Array.from({ length: 12 }, (_, index) => index + 1);
@@ -10,6 +14,10 @@ export const ReservationPage = () => {
     const hours: number[] = Array.from({ length: 24 }, (_, index) => index + 1);
     const mins: number[] = Array.from({ length: 60 }, (_, index) => index);
     const times: number[] = [15, 30, 45, 60];
+    const [name, setName] = useState<string>('');
+    const [start, setStart] = useState<number>(0);
+    const [continu, setContinu] = useState<string | number | LabeledValue>(0);
+    const [invitee, setInvitee] = useState<string>('');
 
     const getMonthName = (month: number) => {
         const monthNames = [
@@ -19,6 +27,32 @@ export const ReservationPage = () => {
         return monthNames[month - 1];
     }
 
+    const handleEditMeeting = async () => {
+        try {
+            const response = await postCreateMeeting({ 
+                continue: continu,
+                invitees: [name, invitee],
+                name: name,
+                start: start
+             });
+            if (response.status === 200) {
+                const data = await response.json();
+                if (data.status === 1) {
+                    Message.success('会议已创建');
+                    navigator('/viewPage', { state: { refresh: true } })
+                } else {
+                    Message.error(data.message);
+                }
+            } else {
+                const errorData = await response.json();
+                Message.error(errorData.message);
+            }
+        } catch (error) {
+            console.error('创建会议失败:', error);
+            Message.error('创建会议失败');
+        }
+    }
+
     return (
         <div className={styled.back}>
             <div className={styled.arrow} onClick={() => { navigator('/viewPage') }}></div>
@@ -26,11 +60,11 @@ export const ReservationPage = () => {
             <Space direction='vertical' align='start' size={50} className={styled.list}>
                 <Space direction='horizontal' align='start' size={200}>
                     <p>会议名称: </p>
-                    <Input className={styled.input} allowClear  placeholder='请输入会议名称'/>
+                    <Input className={styled.input} onChange={(v) => {setName(v)}} allowClear placeholder='请输入会议名称'/>
                 </Space>
                 <Space direction='horizontal' align='start'>
                     <p>开始时间: </p>
-                    <Select size='large' placeholder='选择月份' className={styled.month} allowClear>
+                    <Select size='large' placeholder='选择月份' onChange={(v) => {setStart(v)}} className={styled.month} allowClear>
                         {months.map((month) => (
                         <Option key={month} value={getMonthName(month)}>
                             {getMonthName(month)}
@@ -61,7 +95,7 @@ export const ReservationPage = () => {
                 </Space>
                 <Space direction='horizontal' align='start' size={200}>
                     <p>持续时间: </p>
-                    <Select size='large' placeholder='会议总时长' className={styled.time} allowClear>
+                    <Select size='large' placeholder='会议总时长' className={styled.time} allowClear onSelect={(v) => {setContinu(v)}}>
                             {times.map((time) => (
                             <Option key={time} value={time}>
                                 {time}分钟
@@ -81,7 +115,7 @@ export const ReservationPage = () => {
                 </Space>
                 <Space direction='horizontal' align='start' size={200}>
                     <p>邀请人: </p>
-                    <Input className={styled.input2} allowClear  placeholder='请输入会议邀请成员ID'/>
+                    <Input className={styled.input2} onChange={(v) => {setInvitee(v)}} allowClear  placeholder='请输入会议邀请成员ID'/>
                 </Space>
                 <Button onClick={() => { 
                     navigator('/viewPage') 

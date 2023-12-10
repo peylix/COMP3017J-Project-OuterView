@@ -15,4 +15,6 @@ export interface IMeeting {
     id: string;
     name: string;
     start: number;
+    status: boolean;
+    interview: string[];
 }

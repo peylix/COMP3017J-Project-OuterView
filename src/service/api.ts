@@ -1,3 +1,4 @@
+import { LabeledValue } from "@arco-design/web-react/es/Select/interface";
 
 const getConfig = (method: string, params: Record<string, any>) => ({
     method: method,
@@ -49,7 +50,7 @@ export const deleteMeeting = async (params: { meetingId: string }) => {
 
 
 export const postCreateMeeting = async (params: {
-    continue: number;
+    continue: string | number | LabeledValue;
     invitees: string[];
     name: string;
     start: number;

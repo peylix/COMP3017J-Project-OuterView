@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { IconCaretRight } from '@arco-design/web-react/icon';
 import { FC } from 'react';
 import { IMeeting } from '../interface.js';
+import dayjs from 'dayjs';
 
 interface IInformation {
     meetings: IMeeting[]
@@ -12,19 +13,19 @@ interface IInformation {
 
 export const Information: FC<IInformation> = (param) => {
     const navigator = useNavigate();
-    const meetingInfo = meetings.map(meeting =>
-        <div className={styled.meeting} key={meeting.meetingID}>
+    const meetingInfo = param.meetings.map(meeting =>
+        <div className={styled.meeting} key={meeting.id}>
             <Space direction='vertical' className={styled.info} size={20}>
                 <Space split={<Divider type='vertical' style={{ backgroundColor: 'black' }} />}>
-                    <p className={styled.p}>{meeting.time}</p>
-                    <p className={styled.p}>{meeting.meetingID}</p>
-                    <p className={styled.p}>{meeting.status}</p>
+                    <p className={styled.p}>{dayjs.unix(meeting.start).format("YYYY/MM/DD")}</p>
+                    <p className={styled.p}>{meeting.id}</p>
+                    <p className={styled.p}>{meeting.status ? '会议已开始' : '会议关闭'}</p>
                 </Space>
-                <p className={styled.p}>{meeting.conferenceName}</p>
+                <p className={styled.p}>{meeting.name}</p>
             </Space>
             <h1 className={styled.title}>预约{meeting.id}</h1>
             <IconCaretRight className={styled.arcoIcon} onClick={() => {
-                navigator('/conferenceInformation', { state: { name: meeting.conferenceName, start: meeting.time } })
+                navigator('/conferenceInformation', { state: { name: meeting.name, start: meeting.start, status: meeting.status, continue: meeting.continue, interview: meeting.interview} })
             }} />
         </div>
     );
