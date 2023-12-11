@@ -160,10 +160,16 @@ def get_into_room():
         reservation = Reservation.query.filter_by(id=reservation_id).first()
         if reservation is None:
             return jsonify({"error": "reservation does not exist"}), 402
+        if reservation.state == True:
+            return jsonify({
+                "code": 1,
+                "message": "用户重复加入房间"
+            }), 403
         reservation.state = True
         db.session.commit()
         response = {
-            'status': 0
+            'code': 0,
+            "message": "加入房间成功"
         }
         return jsonify(response), 201  # Return a JSON response with HTTP status code 201 (Created)
 
