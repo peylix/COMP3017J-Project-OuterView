@@ -17,6 +17,7 @@ def create_app():
     static_folder = os.path.join(BASE_DIR, 'static')  # Specify the static folder
 
     app = Flask(__name__, static_folder=static_folder)
+    app.json.sort_keys = False
     # Blueprint for Registration
     app.register_blueprint(blueprint=user_blue, url_prefix='/user')
     app.register_blueprint(blueprint=reservation_blue, url_prefix='/reservation')
