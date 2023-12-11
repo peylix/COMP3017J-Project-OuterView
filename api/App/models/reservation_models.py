@@ -51,6 +51,13 @@ class Participant(db.Model):
     reservation_id = db.Column(db.Integer, ForeignKey(Reservation.id), nullable=False)
     role = db.Column(db.Integer, nullable=False, comment='0: Initiator, 1: Regular Participant')
 
+
+    def to_dict(self):
+            return {
+                'user_id': self.user_id,
+
+                # include other fields here
+            }
     
 
     def __repr__(self):

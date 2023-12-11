@@ -13,15 +13,15 @@ reservation_blue = Blueprint('reservation', __name__, url_prefix = '/reservation
 def get_reservations():
     try:
         # Fetch the data as a string
-        data = request.data
-        if data is None:
-            return jsonify({"error": "JSON data not provided"}), 400
+        data = request.args.get('userId')
+        # if data is None:
+        #     return jsonify({"error": "JSON data not provided"}), 400
         user_id = data
 
 
-        if user_id != '': 
+        if user_id != None: 
             # Retrieve reservations of a particular user
-            reservations = Reservation.query.join(Participant, Reservation.id == Participant.reservation_id).filter(Participant.user_id == user_id, Participant.role == 0).all()
+            reservations = Reservation.query.join(Participant, Reservation.id == Participant.reservation_id).filter(Participant.user_id == user_id).all()
             participants = Participant.query.join(Reservation, Reservation.id == Participant.reservation_id).all()
   
         else:
@@ -38,10 +38,10 @@ def get_reservations():
             reservation_data = {
                 'id': reservation.id,
                 'name': reservation.name,
-                'startTimeLimit': reservation.start_time_limit.strftime('%H:%M'),
-                'endTimeLimit': reservation.end_time_limit.strftime('%H:%M'),
+                'startTimeLimit': reservation.start_time_limit,
+                'endTimeLimit': reservation.end_time_limit,
                 'status': reservation.state,
-                'interview': participants,
+                'interview': [participant.to_dict() for participant in participants],
                 'detail': reservation.detail,
                 # 'dates': [date.date.strftime('%Y-%m-%d') for date in reservation.dates]
             }
@@ -49,8 +49,8 @@ def get_reservations():
 
         # Prepare the response data
         response = {
-            'reservations': reservations_data,
-            'code': 1
+            'meetings': reservations_data,
+            'status': 1
         }
 
         return jsonify(response)  # Return a JSON response
@@ -148,3 +148,29 @@ def delete_reservation():
         return jsonify(response), 500
     
 
+@reservation_blue.route('/get_into_room', methods=['POST'])
+def get_into_room():
+    try:
+        # Fetch the data as a string
+        get_into_room_data = request.json
+        if get_into_room_data is None:
+            return jsonify({"error": "JSON data not provided"}), 400
+        user_id = get_into_room_data.get('userId')
+        reservation_id = get_into_room_data.get('meetingId')
+        reservation = Reservation.query.filter_by(id=reservation_id).first()
+        if reservation is None:
+            return jsonify({"error": "reservation does not exist"}), 402
+        reservation.state = True
+        db.session.commit()
+        response = {
+            'status': 0
+        }
+        return jsonify(response), 201  # Return a JSON response with HTTP status code 201 (Created)
+
+    except Exception as e:
+        # Handle exceptions and return an error response
+        response = {
+            'error_message': str(e),
+            'status': 1
+        }
+        return jsonify(response), 500
