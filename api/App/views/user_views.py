@@ -124,13 +124,13 @@ def get_interviewees():
         user_list = []
         for user in users:
             user_data = {
-                'userId': user.user_id,
+                'id': user.user_id,
                 'name': user.name
             }
             user_list.append(user_data)
         response_data = {
-            'user_num': len(user_list),
-            'user_data': user_data
+            'status': 0,
+            'interviewees': user_data
         }
         return jsonify(response_data), 200
     except Exception as e:
