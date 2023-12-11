@@ -41,12 +41,3 @@ def create_app():
     # 初始化插件
     init_exts(app=app)
     return app
-
-
-# def read_database():
-#     user_info = []
-#     with open('api/App/utils/database.txt', 'r', encoding='utf-8') as f:
-#         for token in f.readlines():
-#             token = token.strip("\n")
-#             user_info.append(token)
-#     return user_info
