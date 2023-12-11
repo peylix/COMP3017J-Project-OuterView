@@ -53,11 +53,8 @@ class Participant(db.Model):
 
 
     def to_dict(self):
-            return {
-                'user_id': self.user_id,
-
-                # include other fields here
-            }
+            return self.user_id,
+            
     
 
     def __repr__(self):

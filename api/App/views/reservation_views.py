@@ -32,9 +32,9 @@ def get_reservations():
         reservations_data = []
 
         for reservation in reservations:
-            if reservation.detail and isinstance(reservation.detail, bytes):
-                reservation.detail = reservation.detail.decode('utf-8')
-            reservation_user_id = [participant.user_id for participant in reservation.participants if participant.role == 0]
+            # if reservation.detail and isinstance(reservation.detail, bytes):
+            #     reservation.detail = reservation.detail.decode('utf-8')
+            # reservation_user_id = [participant.user_id for participant in reservation.participants if participant.role == 0]
             reservation_data = {
                 'id': reservation.id,
                 'name': reservation.name,
@@ -42,7 +42,7 @@ def get_reservations():
                 'endTimeLimit': reservation.end_time_limit,
                 'status': reservation.state,
                 'interview': [participant.to_dict() for participant in participants],
-                'detail': reservation.detail,
+                # 'detail': reservation.detail,
                 # 'dates': [date.date.strftime('%Y-%m-%d') for date in reservation.dates]
             }
             reservations_data.append(reservation_data)
