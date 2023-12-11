@@ -14,14 +14,14 @@ class Reservation(db.Model):
     __tablename__ = 'reservation'
 
     # Define columns in the 'reservation' table
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(255), nullable=False)
-    start_time_limit = db.Column(db.Time, nullable=False)
-    end_time_limit = db.Column(db.Time, nullable=False)
-    state = db.Column(db.Integer, nullable=False, comment='0: Not Started, 1: In Progress, 2: Finished')
+    start_time_limit = db.Column(db.Integer, nullable=False)
+    end_time_limit = db.Column(db.Integer, nullable=False)
+    state = db.Column(db.Boolean, default=False, nullable=False, comment='False: Not started, True: Started')
     detail = db.Column(db.Text)
     evaluation = db.Column(db.Text)
-    date = db.Column(db.Date, default=None)
+    date = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Define the relationship with participants
     participants = db.relationship('Participant', backref='reservation', lazy=True)
@@ -46,7 +46,7 @@ class Reservation(db.Model):
 class Participant(db.Model):
     __tablename__ = 'reservation_participant'
 
-    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     user_id = db.Column(db.String(255), ForeignKey(User.user_id), nullable=False)
     reservation_id = db.Column(db.Integer, ForeignKey(Reservation.id), nullable=False)
     role = db.Column(db.Integer, nullable=False, comment='0: Initiator, 1: Regular Participant')
