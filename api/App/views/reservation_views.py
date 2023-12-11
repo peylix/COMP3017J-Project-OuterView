@@ -21,7 +21,9 @@ def get_reservations():
 
         if user_id != '': 
             # Retrieve reservations of a particular user
-            reservations = Reservation.query.join(Participant, Reservation.id == Participant.reservation_id).filter(Participant.user_id == user_id, Participant.role == 0).all()    
+            reservations = Reservation.query.join(Participant, Reservation.id == Participant.reservation_id).filter(Participant.user_id == user_id, Participant.role == 0).all()
+            participants = Participant.query.join(Reservation, Reservation.id == Participant.reservation_id).all()
+  
         else:
             # Retrieve all reservations from the database
             reservations = Reservation.query.all()
@@ -114,3 +116,35 @@ def create_reservation():
             'status': 1
         }
         return jsonify(response), 500
+    
+
+@reservation_blue.route('/delete_reservation', methods=['DELETE'])
+def delete_reservation():
+    try:
+        # Fetch the data as a string
+        delete_reservation_data = request.json
+        if delete_reservation_data is None:
+            return jsonify({"error": "JSON data not provided"}), 400
+        reservation_id = delete_reservation_data.get('meetingId')
+        reservation = Reservation.query.filter_by(id=reservation_id).first()
+        participants = Participant.query.filter_by(reservation_id=reservation_id).all()
+        if reservation is None:
+            return jsonify({"error": "reservation does not exist"}), 402
+        db.session.delete(reservation)
+        for participant in participants:
+            db.session.delete(participant)
+        db.session.commit()
+        response = {
+            'status': 0
+        }
+        return jsonify(response), 201  # Return a JSON response with HTTP status code 201 (Created)
+
+    except Exception as e:
+        # Handle exceptions and return an error response
+        response = {
+            'error_message': str(e),
+            'status': 1
+        }
+        return jsonify(response), 500
+    
+
