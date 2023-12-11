@@ -7,7 +7,6 @@ const FormItem = Form.Item;
 
 export const Register = () => {
     // Regarding the status of the input user ID and password
-    const identities = ['User', 'Administor']
 
     // Hooks for route jumps
     const navigator = useNavigate()

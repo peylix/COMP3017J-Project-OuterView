@@ -9,7 +9,7 @@ import { getUserMeetings } from '../../service/api';
 
 
 export const ViewPage = () => {
-    const {state} = useLocation();
+    const { state } = useLocation() || [];
     const navigator = useNavigate();
 
 
@@ -25,7 +25,7 @@ export const ViewPage = () => {
 
 
     const getMeetingsReq = async () => {
-        const raw = await getUserMeetings({ userId: userInfo.userId })
+        const raw = await getUserMeetings({ userId: state.userId })
         if (raw.status === 200) {
             const res = await raw.json()
             if (res.status === 1) {
@@ -61,7 +61,7 @@ export const ViewPage = () => {
                 </Space>
                 <div className={styled.scrollContainer}>
                     <h1>待参加的会议</h1>
-                    <Information meetings={meetings} userID={userInfo.userId} identity={userInfo.identity}/>
+                    <Information meetings={meetings} userID={userInfo.userId} identity={userInfo.identity} />
                 </div>
             </Space>
         </div>

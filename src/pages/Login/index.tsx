@@ -28,18 +28,17 @@ export const Login = () => {
         const params = {
             userId,
             password,
-            auth: identity === 'User' ? '0' : '1'
+            auth: 0
         } as {
             userId: string,
             password: string,
-            auth: '0' | '1'
         }
 
         const raw = await postUserLogin(params)
         if (raw.status === 201) {
             const res = await raw.json()
             // If the request is successful, go to the homepage and carry the user information
-            navigator('/main', { state: { auth: res.auth, userId: res.userId, name: res.name, } })
+            navigator('/viewPage', { state: { auth: res.auth, userId: res.userId, name: res.name, } })
         } else {
             // Otherwise, an error will pop up
             Message.error(raw.statusText)

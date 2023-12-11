@@ -1,17 +1,16 @@
 import { LabeledValue } from "@arco-design/web-react/es/Select/interface";
 
-const getConfig = (method: string, params: Record<string, any>) => ({
+const getConfig = (method: string, params?: Record<string, any>) => ({
     method: method,
     headers: {
         "Content-Type": "application/json",
     },
-    body: JSON.stringify(params),
+    body: params ? JSON.stringify(params) : undefined,
 })
 
 export const postUserLogin = async (params: {
     userId: string;
     password: string;
-    auth: '0' | '1';
 }) => {
     // 接口前加个/api
     return await fetch('api/user/login', getConfig('POST', params))
@@ -29,10 +28,8 @@ export const postUserRegister = async (params: {
 export const getUserMeetings = async (params: {
     userId: string
 }) => {
-    return await fetch(`api/userMeetings?userId=${params.userId}`,
-        {
-            method: "GET",
-        })
+    return await fetch(`api/reservation/get_reservations?userId=${params.userId}`,
+        getConfig('GET'))
 }
 
 
