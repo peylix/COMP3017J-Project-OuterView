@@ -23,6 +23,7 @@ export const ViewPage = () => {
 
 
 
+
     const getMeetingsReq = async () => {
         const raw = await getUserMeetings({ userId: userInfo.userId })
         if (raw.status === 200) {
@@ -41,7 +42,7 @@ export const ViewPage = () => {
 
     useEffect(() => {
         getMeetingsReq()
-    }, [userInfo, state.refresh])
+    }, [userInfo])
 
     return (
         <div className={styled.back}>
@@ -53,14 +54,14 @@ export const ViewPage = () => {
                         <h1>身份：</h1>
                         <h1>{Identity[userInfo.identity]}</h1>
                     </Space>
-                    <Button shape='round' type='primary' className={styled.button} status='warning' onClick={() => { navigator('/reservationPage') }}>
+                    {(userInfo.identity === 0) && <Button shape='round' type='primary' className={styled.button} status='warning' onClick={() => { navigator('/reservationPage') }}>
                         预约会议
-                    </Button>
+                    </Button>}
                     <div className={styled.arrow} onClick={() => { navigator('/') }}></div>
                 </Space>
                 <div className={styled.scrollContainer}>
                     <h1>待参加的会议</h1>
-                    <Information meetings={meetings} />
+                    <Information meetings={meetings} userID={userInfo.userId} identity={userInfo.identity}/>
                 </div>
             </Space>
         </div>

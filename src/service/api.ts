@@ -50,10 +50,11 @@ export const deleteMeeting = async (params: { meetingId: string }) => {
 
 
 export const postCreateMeeting = async (params: {
-    continue: string | number | LabeledValue;
+    continue: number;
     invitees: string[];
     name: string;
     start: number;
+    type: boolean;
 }) => {
     return await fetch('api/createMeeting', getConfig('POST', params))
 }
