@@ -47,7 +47,7 @@ export const deleteMeeting = async (params: { meetingId: string }) => {
 
 
 export const postCreateMeeting = async (params: {
-    continue: number;
+    end: number;
     invitees: string[];
     name: string;
     start: number;

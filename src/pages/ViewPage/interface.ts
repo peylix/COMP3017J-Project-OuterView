@@ -11,7 +11,7 @@ export interface IUserInfo {
 }
 
 export interface IMeeting {
-    continue: number;
+    end: number;
     id: string;
     name: string;
     start: number;

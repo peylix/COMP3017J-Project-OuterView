@@ -4,10 +4,12 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { IconArrowRight } from '@arco-design/web-react/icon'
 import dayjs from 'dayjs';
 import { deleteMeeting, postJoinMeetings } from '../../service/api';
+import { IUserInfo } from '../ViewPage/interface';
 
 export const ConferenceInformation = () => {
     const {state} = useLocation();
     const navigator = useNavigate();
+    const interviewer = state.interview.filter((item: any) => {item !== state.userID})
 
     const handleCancelMeeting = async () => {
         try {
@@ -37,7 +39,7 @@ export const ConferenceInformation = () => {
                 const data = await response.json();
                 if (data.status === 0) {
                     Message.success('会议已进入');
-                    navigator('/interview/room', { state: {} })//
+                    navigator('/interview/room')
                 } else {
                     Message.error(data.message);
                 }
@@ -52,7 +54,7 @@ export const ConferenceInformation = () => {
     }
 
     const handleEditMeeting = () => {
-        navigator('/reservationPage', { state: { interview: false, name: state.name, start: state.start, continue: state.continue } })
+        navigator('/reservationPage', { state: { userId: state.userID, identitier: false } })
     }
 
     return (
@@ -61,13 +63,13 @@ export const ConferenceInformation = () => {
             <h1 className={styled.title}>会议详情</h1>
             <div className={styled.info}>
                 <h2 className={styled.title2}>{state.name}</h2>
-                <p className={styled.continue}>{Math.floor(state.continue / 60)}分钟</p>
+                <p className={styled.continue}>{(state.end - state.start) / 60}分钟</p>
                 <Space direction='horizontal'>
                     <p className={styled.start}>{dayjs.unix(state.start).format("YYYY/MM/DD")}</p>
                     <IconArrowRight className={styled.arrow2}/>
-                    <p className={styled.end}>{dayjs.unix(state.start + state.continue).format("YYYY/MM/DD")}</p>
+                    <p className={styled.end}>{dayjs.unix(state.end).format("YYYY/MM/DD")}</p>
                 </Space>
-                <p className={styled.initiator}>{state.interview[0]}</p>
+                <p className={styled.initiator}>{interviewer}</p>
             </div>
             {(state.identity === 0) && <Button shape='round' type='primary' status='danger' className={styled.button1} onClick={handleCancelMeeting}>
                 取消会议

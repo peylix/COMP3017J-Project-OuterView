@@ -54,7 +54,7 @@ export const ViewPage = () => {
                         <h1>身份：</h1>
                         <h1>{Identity[userInfo.identity]}</h1>
                     </Space>
-                    {(userInfo.identity === 0) && <Button shape='round' type='primary' className={styled.button} status='warning' onClick={() => { navigator('/reservationPage') }}>
+                    {(userInfo.identity === 0) && <Button shape='round' type='primary' className={styled.button} status='warning' onClick={() => { navigator('/reservationPage', {state: {userID: userInfo.userId, identitier: true}})}}>
                         预约会议
                     </Button>}
                     <div className={styled.arrow} onClick={() => { navigator('/') }}></div>
