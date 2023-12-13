@@ -1,0 +1,11 @@
+version: "3"
+services:
+
+
+  web:
+    build: .
+    command: npm run dev && cd backend && node app.js
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
