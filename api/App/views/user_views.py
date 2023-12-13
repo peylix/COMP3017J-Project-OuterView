@@ -25,7 +25,7 @@ def post_user_login():
         return jsonify({'error': 'Please logout first.'}), 401
     user_id = data.get('userId')
     password = data.get('password')
-    auth = data.get('auth')
+    # auth = data.get('auth')
 
 
 
@@ -34,11 +34,10 @@ def post_user_login():
 
     if user:
         # Validate password and auth
-        if user.password == password and user.auth == int(auth):
+        if user.password == password:
             user_data = {
                 'userId': user.user_id,
-                'name': user.name,
-                'auth': user.auth
+                'name': user.name
             }
             return jsonify(user_data), 201  # Return a JSON response with HTTP status code 201 (Created)
         else:
