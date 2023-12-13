@@ -32,3 +32,4 @@ api/App/utils/__pycache__/
 api/App/views/__pycache__/
 api/migrations/
 api/.venv
+api/App/utils/database_user_info.txt
