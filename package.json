@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 0.0.0.0",
     "start-api": "cd api && python app.py",
     "start-bff": "cd backend && node app.js",
     "build": "tsc && vite build",

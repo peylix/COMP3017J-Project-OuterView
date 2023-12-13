@@ -1,7 +1,7 @@
 import { meetings } from './data.js';
 import styled from './info.module.css';
 import { Space, Divider } from '@arco-design/web-react';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { IconCaretRight } from '@arco-design/web-react/icon';
 import { FC } from 'react';
 import { IMeeting, Identity } from '../interface.js';
@@ -14,6 +14,8 @@ interface IInformation {
 }
 
 export const Information: FC<IInformation> = (param) => {
+    const { state } = useLocation();
+
     const navigator = useNavigate();
     const meetingInfo = param.meetings.map(meeting =>
         <div className={styled.meeting} key={meeting.id}>
@@ -26,7 +28,18 @@ export const Information: FC<IInformation> = (param) => {
             </Space>
             {/* <h1 className={styled.title}>预约{meeting.id}</h1> */}
             <IconCaretRight className={styled.arcoIcon} onClick={() => {
-                navigator('/conferenceInformation', { state: { meetingId: meeting.id, name: meeting.name, userID: param.userID, identity: param.identity, start: meeting.start, end: meeting.end, interview: meeting.interview } })
+                navigator('/conferenceInformation', {
+                    state: {
+                        meetingId: meeting.id,
+                        name: meeting.name,
+                        userID: param.userID,
+                        identity: param.identity,
+                        start: meeting.start,
+                        end: meeting.end,
+                        interview: meeting.interview,
+                        ...state
+                    }
+                })
             }} />
         </div>
     );

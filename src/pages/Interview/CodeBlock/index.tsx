@@ -13,21 +13,20 @@ export const CodeBlock = ({ IDE, send }: any) => {
 
     const langOptions = ['javascript', 'python']
     const [showOutput, setShowOutput] = useState(false)
-    const {
-        runPython,
-        stdout,
-        stderr,
-        isLoading,
-        isRunning,
-        interruptExecution,
-        isAwaitingInput,
-        sendInput,
-        prompt
-    } = usePython()
+    // const {
+    //     runPython,
+    //     stdout,
+    //     stderr,
+    //     isLoading,
+    //     isRunning,
+    //     interruptExecution,
+    //     isAwaitingInput,
+    //     sendInput,
+    //     prompt
+    // } = usePython()
 
 
     function run() {
-        console.log(isLoading)
         // runPython(input)
         setShowOutput(true)
     }
