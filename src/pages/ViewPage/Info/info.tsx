@@ -19,15 +19,14 @@ export const Information: FC<IInformation> = (param) => {
         <div className={styled.meeting} key={meeting.id}>
             <Space direction='vertical' className={styled.info} size={20}>
                 <Space split={<Divider type='vertical' style={{ backgroundColor: 'black' }} />}>
-                    <p className={styled.p}>{dayjs.unix(meeting.start).format("YYYY/MM/DD")}</p>
-                    <p className={styled.p}>{meeting.id}</p>
+                    <p className={styled.p}>{dayjs.unix(meeting.startTimeLimit).format("YYYY/MM/DD")}</p>
                     <p className={styled.p}>{meeting.status ? '会议已开始' : '会议关闭'}</p>
                 </Space>
                 <p className={styled.p}>{meeting.name}</p>
             </Space>
-            <h1 className={styled.title}>预约{meeting.id}</h1>
+            {/* <h1 className={styled.title}>预约{meeting.id}</h1> */}
             <IconCaretRight className={styled.arcoIcon} onClick={() => {
-                navigator('/conferenceInformation', { state: { identitier: 2, name: meeting.name, userID: param.userID, identity: param.identity, start: meeting.start, end: meeting.end, interview: meeting.interview} })
+                navigator('/conferenceInformation', { state: { meetingId: meeting.id, name: meeting.name, userID: param.userID, identity: param.identity, start: meeting.start, end: meeting.end, interview: meeting.interview } })
             }} />
         </div>
     );

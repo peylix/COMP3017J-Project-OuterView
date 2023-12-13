@@ -7,9 +7,9 @@ import { deleteMeeting, postJoinMeetings } from '../../service/api';
 import { IUserInfo } from '../ViewPage/interface';
 
 export const ConferenceInformation = () => {
-    const {state} = useLocation();
+    const { state } = useLocation();
     const navigator = useNavigate();
-    const interviewer = state.interview.filter((item: any) => {item !== state.userID})
+    const interviewer = state.interview.filter((item: any) => { item !== state.userID })
 
     const handleCancelMeeting = async () => {
         try {
@@ -35,11 +35,12 @@ export const ConferenceInformation = () => {
     const handleEnterMeeting = async () => {
         try {
             const response = await postJoinMeetings({ userId: state.userID, meetingId: state.meetingId });
-            if (response.status === 200) {
+            if (response.status === 201) {
                 const data = await response.json();
-                if (data.status === 0) {
+                console.log(data)
+                if (data.code === 0) {
                     Message.success('会议已进入');
-                    navigator('/interview/room')
+                    navigator('/interview/room', { state })
                 } else {
                     Message.error(data.message);
                 }
@@ -66,7 +67,7 @@ export const ConferenceInformation = () => {
                 <p className={styled.continue}>{(state.end - state.start) / 60}分钟</p>
                 <Space direction='horizontal'>
                     <p className={styled.start}>{dayjs.unix(state.start).format("YYYY/MM/DD")}</p>
-                    <IconArrowRight className={styled.arrow2}/>
+                    <IconArrowRight className={styled.arrow2} />
                     <p className={styled.end}>{dayjs.unix(state.end).format("YYYY/MM/DD")}</p>
                 </Space>
                 <p className={styled.initiator}>{interviewer}</p>
@@ -74,10 +75,10 @@ export const ConferenceInformation = () => {
             {(state.identity === 0) && <Button shape='round' type='primary' status='danger' className={styled.button1} onClick={handleCancelMeeting}>
                 取消会议
             </Button>}
-            {(state.identity === 0) && <Button shape='round' type='primary'  status='warning' className={styled.button2} onClick={() => { handleEditMeeting }}>
+            {(state.identity === 0) && <Button shape='round' type='primary' status='warning' className={styled.button2} onClick={() => { handleEditMeeting }}>
                 编辑会议
             </Button>}
-            <Button shape='round' type='primary' status='success' className={styled.button3} onClick={() => { handleEnterMeeting }}>
+            <Button shape='round' type='primary' status='success' className={styled.button3} onClick={() => handleEnterMeeting()}>
                 进入会议
             </Button>
         </div>

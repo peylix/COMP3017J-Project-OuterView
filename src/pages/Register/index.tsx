@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { postUserRegister } from "../../service/api"
-import { Button, Divider, Form, Input, Link, Message, Space } from "@arco-design/web-react"
+import { Button, Divider, Form, Input, Link, Message, Space, Switch } from "@arco-design/web-react"
 import { useState } from "react"
 import styled from "./index.module.css"
 const FormItem = Form.Item;
@@ -68,7 +68,11 @@ export const Register = () => {
                     <div className={styled.title}>COMP3017J-Project-Outerview</div>
                     <Divider />
                     {/* Switch between user register or administrator register based on different identities */}
-                    <div className={styled.subTitle}>{`${identity} Register`}</div>
+                    <div className={styled.subTitle}>{`${identity === 'User' ? 'interviewer' : 'intervieew'} Register`}</div>
+                    <div>intervieew
+                        <Switch style={{ 'background': 'gray' }} checked={!(identity === 'User')} onChange={(v) => setIdentity(v ? 'Admin' : 'User')}></Switch>
+                    </div>
+
                     {/* The form used for register, including some rules (required) */}
                     <Form form={form} onChange={(v) => handleInput(v)} autoComplete='off' style={{ width: 400, justifyContent: 'center' }} >
                         <FormItem field='name' style={{ justifyContent: 'center' }} rules={[{

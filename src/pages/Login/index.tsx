@@ -28,7 +28,6 @@ export const Login = () => {
         const params = {
             userId,
             password,
-            auth: 0
         } as {
             userId: string,
             password: string,

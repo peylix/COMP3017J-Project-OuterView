@@ -1,2 +1,2 @@
 root
-your_database_password
+123456

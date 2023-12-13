@@ -10,14 +10,15 @@ import { getUserMeetings } from '../../service/api';
 
 export const ViewPage = () => {
     const { state } = useLocation() || [];
+    const userInfo = state
     const navigator = useNavigate();
 
 
-    const [userInfo, setUserInfo] = useState<IUserInfo>({
-        userId: '111',
-        userName: 'Jack',
-        identity: 0
-    })
+    // const [userInfo, setUserInfo] = useState<IUserInfo>({
+    //     userId: '111',
+    //     userName: 'Jack',
+    //     identity: 0
+    // })
 
     const [meetings, setMeetings] = useState<IMeeting[]>([])
 
@@ -49,19 +50,19 @@ export const ViewPage = () => {
             <Space direction='horizontal' align='start' size={300}>
                 <Space direction='vertical' align='start' className={styled.leftButton} size={100}>
                     <Space className={styled.user}>
-                        <h1>用户名：</h1>
-                        <h1>{userInfo.userName}</h1>
+                        <h1>用户名</h1>
+                        <h1>{userInfo.name}</h1>
                         <h1>身份：</h1>
-                        <h1>{Identity[userInfo.identity]}</h1>
+                        <h1>{Identity[userInfo.auth]}</h1>
                     </Space>
-                    {(userInfo.identity === 0) && <Button shape='round' type='primary' className={styled.button} status='warning' onClick={() => { navigator('/reservationPage', {state: {userID: userInfo.userId, identitier: true}})}}>
+                    {(userInfo.auth === 0) && <Button shape='round' type='primary' className={styled.button} status='warning' onClick={() => { navigator('/reservationPage', { state: { userID: userInfo.userId, identitier: true } }) }}>
                         预约会议
                     </Button>}
                     <div className={styled.arrow} onClick={() => { navigator('/') }}></div>
                 </Space>
                 <div className={styled.scrollContainer}>
                     <h1>待参加的会议</h1>
-                    <Information meetings={meetings} userID={userInfo.userId} identity={userInfo.identity} />
+                    <Information meetings={meetings} userID={userInfo.userId} identity={userInfo.auth} />
                 </div>
             </Space>
         </div>

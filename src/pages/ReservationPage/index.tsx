@@ -6,7 +6,8 @@ import { useState } from 'react';
 import dayjs from 'dayjs';
 
 export const ReservationPage = () => {
-    const {state} = useLocation();
+    const { state } = useLocation();
+    console.log(state)
     const navigator = useNavigate();
     const Option = Select.Option;
     const months: number[] = Array.from({ length: 12 }, (_, index) => index + 1);
@@ -14,38 +15,37 @@ export const ReservationPage = () => {
     const hours: number[] = Array.from({ length: 24 }, (_, index) => index + 1);
     const mins: number[] = Array.from({ length: 60 }, (_, index) => index);
     const times: number[] = [15, 30, 45, 60];
-    const [id, setId] = useState<string>(state?.name ||'');
+    const [id, setId] = useState<string>(state?.name || '');
     const [start, setStart] = useState<number>(0);
     const [month, setMonth] = useState<number>(1);
     const [day, setDay] = useState<number>(1);
     const [hour, setHour] = useState<number>(0);
     const [min, setMin] = useState<number>(0);
     const [continu, setContinu] = useState<number>(0);
-    const [invitee, setInvitee] = useState<string[]>([]);
+    const [invitee, setInvitee] = useState<string>('');
     const [type, setType] = useState<boolean>(true);
     const handleEditMeeting = async () => {
         try {
             const date = dayjs();
             const updatedDate = date
-                .set('month', month-1)
+                .set('month', month - 1)
                 .set('date', day)
-                .set('hour', hour) 
+                .set('hour', hour)
                 .set('minute', min);
             setStart(updatedDate.unix());
             setType(state.identitier);
-            setInvitee([...invitee, state.userID])
-            const response = await postCreateMeeting({ 
-                end: start + continu*60,
-                invitees: invitee,
+            const response = await postCreateMeeting({
+                end: start + continu * 60,
+                invitees: [invitee, state.userID],
                 name: id,
                 start: start,
                 type: type
-             });
-             console.log(type)
-             console.log(invitee)
+            });
+            console.log(type)
+            console.log(invitee)
             if (response.status === 200) {
                 const data = await response.json();
-                if (data.status === 1) {
+                if (data.status === 0) {
                     Message.success('会议已创建');
                     navigator('/viewPage')
                 } else {
@@ -68,54 +68,54 @@ export const ReservationPage = () => {
             <Space direction='vertical' align='start' size={50} className={styled.list}>
                 <Space direction='horizontal' align='start' size={200}>
                     <p>会议名称: </p>
-                    <Input className={styled.input} value={id} onChange={(v) => {setId(v)}} allowClear placeholder='请输入会议名称'/>
+                    <Input className={styled.input} value={id} onChange={(v) => { setId(v) }} allowClear placeholder='请输入会议名称' />
                 </Space>
                 <Space direction='horizontal' align='start'>
                     <p>开始时间: </p>
-                    <Select size='large' placeholder='选择月份' onChange={(v) => {setMonth(v)}} className={styled.month} allowClear>
+                    <Select size='large' placeholder='选择月份' onChange={(v) => { setMonth(v) }} className={styled.month} allowClear>
                         {months.map((month) => (
-                        <Option key={month} value={month}>
-                            {month}月
-                        </Option>
+                            <Option key={month} value={month}>
+                                {month}月
+                            </Option>
                         ))}
                     </Select>
-                    <Select size='large' placeholder='选择日子' onChange={(v) => {setDay(v)}} className={styled.day} allowClear>
+                    <Select size='large' placeholder='选择日子' onChange={(v) => { setDay(v) }} className={styled.day} allowClear>
                         {days.map((day) => (
-                        <Option key={day} value={day}>
-                            {day}号
-                        </Option>
+                            <Option key={day} value={day}>
+                                {day}号
+                            </Option>
                         ))}
                     </Select>
-                    <Select size='large' placeholder='选择小时' onChange={(v) => {setHour(v)}} className={styled.hour} allowClear>
+                    <Select size='large' placeholder='选择小时' onChange={(v) => { setHour(v) }} className={styled.hour} allowClear>
                         {hours.map((hour) => (
-                        <Option key={hour} value={hour}>
-                            {hour}点
-                        </Option>
+                            <Option key={hour} value={hour}>
+                                {hour}点
+                            </Option>
                         ))}
                     </Select>
-                    <Select size='large' placeholder='选择分钟' onChange={(v) => {setMin(v)}} className={styled.min} allowClear>
+                    <Select size='large' placeholder='选择分钟' onChange={(v) => { setMin(v) }} className={styled.min} allowClear>
                         {mins.map((min) => (
-                        <Option key={min} value={min}>
-                            {min}分
-                        </Option>
+                            <Option key={min} value={min}>
+                                {min}分
+                            </Option>
                         ))}
                     </Select>
                 </Space>
                 <Space direction='horizontal' align='start' size={200}>
                     <p>持续时间: </p>
-                    <Select size='large' placeholder='会议总时长' className={styled.time} allowClear onChange={(v) => {setContinu(v)}}>
-                            {times.map((time) => (
+                    <Select size='large' placeholder='会议总时长' className={styled.time} allowClear onChange={(v) => { setContinu(v) }}>
+                        {times.map((time) => (
                             <Option key={time} value={time}>
                                 {time}分钟
                             </Option>
-                            ))}
+                        ))}
                     </Select>
                 </Space>
                 <Space direction='horizontal' align='start' size={200}>
                     <p>邀请人: </p>
-                    <Input className={styled.input2} onChange={(v) => {setInvitee([...invitee, v])}} allowClear  placeholder='请输入会议邀请成员ID'/>
+                    <Input className={styled.input2} onChange={(v) => { setInvitee(v) }} allowClear placeholder='请输入会议邀请成员ID' />
                 </Space>
-                <Button onClick={handleEditMeeting}shape='round' type='primary' status='success' className={styled.button1} >完成预约</Button>
+                <Button onClick={handleEditMeeting} shape='round' type='primary' status='success' className={styled.button1} >完成预约</Button>
             </Space>
         </div>
     )

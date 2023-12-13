@@ -4,19 +4,19 @@ import { Panel } from "./Panel";
 import { VideoArea } from "./VideoArea";
 import { useEffect, useRef } from "react";
 import { useVideoInSocket } from "./useVideoInSocket";
+import { useLocation } from "react-router-dom";
 
 
 
 
 export const Interview = () => {
+    const { state } = useLocation();
+    console.log(state)
     // 进入视频会议后，我们拥有当前会议的id和本用户id
     // 去连接指定的房间id
-    let myID = ''
-    const roomID = '3333'
-    useEffect(() => {
-        myID = Math.floor(Math.random() * 20) + ''
-        info.myID = myID
-    }, [])
+    let myID = state.userID
+    const roomID = state.meetingId
+
 
     const info = { myID, roomID }
     const { yourVideoLoading: hasGetYourVideo, yourVideoStream, pushStream, allClients, IDE, send } = useVideoInSocket({ info })
@@ -37,7 +37,7 @@ export const Interview = () => {
     }
 
     return <div className={'w-screen h-screen container '}>
-        <div className={'w-screen h-12 p-3 text-2xl bg-white pl-[32px] leading-6 '}>A 公司面试-创建人：B</div>
+        <div className={'w-screen h-12 p-3 text-2xl bg-white pl-[32px] leading-6 '}>{state.name}</div>
         <div className={'flex w-screen h-[calc(100%-3rem)]'}>
             <div className={'w-4/5'}>
                 <div className={'container h-1/2'}>

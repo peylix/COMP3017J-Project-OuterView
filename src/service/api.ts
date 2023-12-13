@@ -37,7 +37,7 @@ export const postJoinMeetings = async (params: {
     meetingId: string;
     userId: string;
 }) => {
-    return await fetch(`api/joinMeetings`, getConfig('POST', params))
+    return await fetch(`api/reservation/get_into_room`, getConfig('POST', params))
 }
 
 
@@ -53,7 +53,7 @@ export const postCreateMeeting = async (params: {
     start: number;
     type: boolean;
 }) => {
-    return await fetch('api/createMeeting', getConfig('POST', params))
+    return await fetch('api/reservation/create_reservation', getConfig('POST', params))
 }
 
 
