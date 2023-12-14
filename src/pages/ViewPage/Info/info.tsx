@@ -26,7 +26,7 @@ export const Information: FC<IInformation> = (param) => {
             </Space>
             {/* <h1 className={styled.title}>预约{meeting.id}</h1> */}
             <IconCaretRight className={styled.arcoIcon} onClick={() => {
-                navigator('/conferenceInformation', { state: { meetingId: meeting.id, name: meeting.name, userID: param.userID, identity: param.identity, start: meeting.start, end: meeting.end, interview: meeting.interview } })
+                navigator('/conferenceInformation', { state: { meetingId: meeting.id, name: meeting.name, userID: param.userID, identity: param.identity, start: meeting.startTimeLimit, end: meeting.endTimeLimit, interview: meeting.interview } })
             }} />
         </div>
     );
