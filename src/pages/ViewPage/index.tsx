@@ -9,22 +9,16 @@ import { getUserMeetings } from '../../service/api';
 
 
 export const ViewPage = () => {
-    const { state } = useLocation() || [];
+    // {
+    //     "auth": 0,
+    //     "userId": "er",
+    //     "name": "er"
+    // }
+    const { state } = useLocation();
     const userInfo = state
+    console.log(state)
     const navigator = useNavigate();
-
-
-    // const [userInfo, setUserInfo] = useState<IUserInfo>({
-    //     userId: '111',
-    //     userName: 'Jack',
-    //     identity: 0
-    // })
-
     const [meetings, setMeetings] = useState<IMeeting[]>([])
-
-
-
-
     const getMeetingsReq = async () => {
         const raw = await getUserMeetings({ userId: state.userId })
         if (raw.status === 200) {
@@ -39,8 +33,6 @@ export const ViewPage = () => {
             Message.error(res.message)
         }
     }
-
-
     useEffect(() => {
         getMeetingsReq()
     }, [userInfo])
@@ -55,7 +47,9 @@ export const ViewPage = () => {
                         <h1>身份：</h1>
                         <h1>{Identity[userInfo.auth]}</h1>
                     </Space>
-                    {(userInfo.auth === 0) && <Button shape='round' type='primary' className={styled.button} status='warning' onClick={() => { navigator('/reservationPage', { state: { userID: userInfo.userId, identitier: true } }) }}>
+                    {(userInfo.auth === 0) && <Button shape='round' type='primary' className={styled.button} status='warning' onClick={() => {
+                        navigator('/reservationPage', { state })
+                    }}>
                         预约会议
                     </Button>}
                     <div className={styled.arrow} onClick={() => { navigator('/') }}></div>

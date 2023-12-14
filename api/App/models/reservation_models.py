@@ -50,6 +50,7 @@ class Participant(db.Model):
     user_id = db.Column(db.String(255), ForeignKey(User.user_id), nullable=False)
     reservation_id = db.Column(db.Integer, ForeignKey(Reservation.id), nullable=False)
     role = db.Column(db.Integer, nullable=False, comment='0: Initiator, 1: Regular Participant')
+    state = db.Column(db.Boolean, default=False, nullable=False, comment='False: Not started, True: Started')
 
 
     def to_dict(self):

@@ -8,7 +8,6 @@ import { Server } from 'socket.io'
 const app = new Koa()
 const router = new KoaRouter()
 
-
 app.use(cors())
 app.use(router.routes())
 
@@ -116,4 +115,5 @@ io.on("connection", function (ws) {
 
 
 io.listen(3333)
+console.log('server has listened 3333')
 

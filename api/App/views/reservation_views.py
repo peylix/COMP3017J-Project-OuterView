@@ -158,14 +158,22 @@ def get_into_room():
         user_id = get_into_room_data.get('userId')
         reservation_id = get_into_room_data.get('meetingId')
         reservation = Reservation.query.filter_by(id=reservation_id).first()
+        this_participant = Participant.query.filter_by(user_id=user_id, reservation_id=reservation_id).first()
+        
+        
+
         if reservation is None:
             return jsonify({"error": "reservation does not exist"}), 402
-        if reservation.state == True:
+        if this_participant is None:
+            return jsonify({"error": "user does not exist"}), 403
+        if this_participant.state == True:
             return jsonify({
                 "code": 1,
                 "message": "用户重复加入房间"
             }), 403
-        reservation.state = True
+        
+        
+        this_participant.state = True
         db.session.commit()
         response = {
             'code': 0,

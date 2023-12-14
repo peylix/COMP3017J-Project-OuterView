@@ -2,12 +2,11 @@ import { Button, Space, Input, Select, Message } from '@arco-design/web-react';
 import styled from './index.module.css';
 import { useLocation, useNavigate } from "react-router-dom";
 import { postCreateMeeting } from '../../service/api';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 
 export const ReservationPage = () => {
     const { state } = useLocation();
-    console.log(state)
     const navigator = useNavigate();
     const Option = Select.Option;
     const months: number[] = Array.from({ length: 12 }, (_, index) => index + 1);
@@ -16,7 +15,6 @@ export const ReservationPage = () => {
     const mins: number[] = Array.from({ length: 60 }, (_, index) => index);
     const times: number[] = [15, 30, 45, 60];
     const [id, setId] = useState<string>(state?.name || '');
-    const [start, setStart] = useState<number>(0);
     const [month, setMonth] = useState<number>(1);
     const [day, setDay] = useState<number>(1);
     const [hour, setHour] = useState<number>(0);
@@ -24,30 +22,35 @@ export const ReservationPage = () => {
     const [continu, setContinu] = useState<number>(0);
     const [invitee, setInvitee] = useState<string>('');
     const [type, setType] = useState<boolean>(true);
+    const realStart = useMemo(() => {
+        const date = dayjs();
+        const updatedDate = date
+            .set('month', month - 1)
+            .set('date', day)
+            .set('hour', hour)
+            .set('minute', min);
+        return updatedDate.unix()
+    }, [month, day, hour, min])
+
     const handleEditMeeting = async () => {
         try {
-            const date = dayjs();
-            const updatedDate = date
-                .set('month', month - 1)
-                .set('date', day)
-                .set('hour', hour)
-                .set('minute', min);
-            setStart(updatedDate.unix());
             setType(state.identitier);
             const response = await postCreateMeeting({
-                end: start + continu * 60,
-                invitees: [invitee, state.userID],
+                end: realStart + continu * 60,
+                invitees: [invitee, state.userId],
                 name: id,
-                start: start,
+                start: realStart,
                 type: type
             });
             console.log(type)
             console.log(invitee)
-            if (response.status === 200) {
+            if (response.status === 201) {
                 const data = await response.json();
                 if (data.status === 0) {
                     Message.success('会议已创建');
-                    navigator('/viewPage')
+                    navigator('/viewPage', {
+                        state
+                    })
                 } else {
                     Message.error(data.message);
                 }
@@ -63,7 +66,7 @@ export const ReservationPage = () => {
 
     return (
         <div className={styled.back}>
-            <div className={styled.arrow} onClick={() => { navigator('/viewPage') }}></div>
+            <div className={styled.arrow} onClick={() => { navigator('/viewPage', { state }) }}></div>
             <h1 className={styled.title}>预约会议</h1>
             <Space direction='vertical' align='start' size={50} className={styled.list}>
                 <Space direction='horizontal' align='start' size={200}>

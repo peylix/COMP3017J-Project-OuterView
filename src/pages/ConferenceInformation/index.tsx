@@ -8,6 +8,7 @@ import { IUserInfo } from '../ViewPage/interface';
 
 export const ConferenceInformation = () => {
     const { state } = useLocation();
+    console.log(state)
     const navigator = useNavigate();
     const interviewer = state.interview.filter((item: any) => { item !== state.userID })
 
@@ -18,7 +19,7 @@ export const ConferenceInformation = () => {
                 const data = await response.json();
                 if (data.status === 1) {
                     Message.success('会议已取消');
-                    navigator('/viewPage')
+                    navigator('/viewPage', { state })
                 } else {
                     Message.error(data.message);
                 }
@@ -55,12 +56,12 @@ export const ConferenceInformation = () => {
     }
 
     const handleEditMeeting = () => {
-        navigator('/reservationPage', { state: { userId: state.userID, identitier: false } })
+        navigator('/reservationPage', { state })
     }
 
     return (
         <div className={styled.back}>
-            <div className={styled.arrow} onClick={() => { navigator('/viewPage') }}></div>
+            <div className={styled.arrow} onClick={() => { navigator('/viewPage', { state }) }}></div>
             <h1 className={styled.title}>会议详情</h1>
             <div className={styled.info}>
                 <h2 className={styled.title2}>{state.name}</h2>
@@ -72,10 +73,10 @@ export const ConferenceInformation = () => {
                 </Space>
                 <p className={styled.initiator}>{interviewer}</p>
             </div>
-            {(state.identity === 0) && <Button shape='round' type='primary' status='danger' className={styled.button1} onClick={handleCancelMeeting}>
+            {(state.identity === 0) && <Button shape='round' type='primary' status='danger' className={styled.button1} onClick={() => handleCancelMeeting()}>
                 取消会议
             </Button>}
-            {(state.identity === 0) && <Button shape='round' type='primary' status='warning' className={styled.button2} onClick={() => { handleEditMeeting }}>
+            {(state.identity === 0) && <Button shape='round' type='primary' status='warning' className={styled.button2} onClick={() => { handleEditMeeting() }}>
                 编辑会议
             </Button>}
             <Button shape='round' type='primary' status='success' className={styled.button3} onClick={() => handleEnterMeeting()}>
