@@ -163,8 +163,7 @@ def get_into_room():
         reservation = Reservation.query.filter_by(id=reservation_id).first()
         this_participant = Participant.query.filter_by(user_id=user_id, reservation_id=reservation_id).first()
         
-        
-
+    
         if reservation is None:
             return jsonify({"error": "reservation does not exist"}), 402
         if this_participant is None:
@@ -237,7 +236,7 @@ def run_code():
                 result['error'] = stderr.decode()
 
             elif language == 'shell':
-                # Lua code execution
+                # Shell code execution
                 process = subprocess.Popen(['bash', '-c', code], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 stdout, stderr = process.communicate()
                 result['output'] = stdout.decode()
@@ -264,7 +263,7 @@ def run_code():
                 print(code + '\n' + input_data)
             
             elif language == 'javascript':
-                # Python code execution
+                # JavaScript code execution
                 process = subprocess.Popen(['node', '-e', code + '\n' + input_data], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 stdout, stderr = process.communicate()
                 result['output'] = stdout.decode()
@@ -273,7 +272,7 @@ def run_code():
                 print(code + '\n' + input_data)
 
             elif language == 'ruby':
-                # Python code execution
+                # Ruby code execution
                 process = subprocess.Popen(['ruby', '-e', code + '\n' + input_data], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 stdout, stderr = process.communicate()
                 result['output'] = stdout.decode()
@@ -282,7 +281,7 @@ def run_code():
                 print(code + '\n' + input_data)
             
             elif language == 'lua':
-                # Python code execution
+                # Lua code execution
                 process = subprocess.Popen(['luajit', '-e', code + '\n' + input_data], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 stdout, stderr = process.communicate()
                 result['output'] = stdout.decode()
@@ -291,7 +290,7 @@ def run_code():
                 print(code + '\n' + input_data)
             
             elif language == 'shell':
-                # Python code execution
+                # Shell code execution
                 process = subprocess.Popen(['bash', '-c', code + '\n' + input_data], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 stdout, stderr = process.communicate()
                 result['output'] = stdout.decode()
@@ -301,7 +300,6 @@ def run_code():
 
             else:
                 return jsonify({"error": "Unsupported language"}), 400
-
 
         return jsonify(result), 200
 
@@ -336,6 +334,7 @@ def get_problem():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
+
 @reservation_blue.route('/get_problem_list', methods=['GET'])
 def get_problem_list():
     try:
@@ -352,6 +351,7 @@ def get_problem_list():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 def fetch_test_cases():
     return [
