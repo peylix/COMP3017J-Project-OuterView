@@ -31,7 +31,7 @@ function App() {
         <Route path="/conferenceInformation" Component={ConferenceInformation} />
         <Route path="/reservationPage" Component={ReservationPage} />
 
-        <Route path="/interview/room" Component={Interview} />
+        <Route path="/room" Component={Interview} />
       </Routes>
     </BrowserRouter>
   )

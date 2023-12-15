@@ -42,7 +42,7 @@ export const postJoinMeetings = async (params: {
 
 
 export const deleteMeeting = async (params: { meetingId: string }) => {
-    return await fetch('api/deleteMeeting', getConfig('DELETE', params))
+    return await fetch('api/reservation/delete_reservation', getConfig('DELETE', params))
 }
 
 
@@ -61,4 +61,13 @@ export const getInterviewees = async () => {
     return await fetch('api/interviewees', {
         method: "GET"
     })
+}
+
+
+
+export const postRunCode = async (params: {
+    code: string
+    language: string;
+}) => {
+    return await fetch('api/reservation/run_code', getConfig('POST', params))
 }

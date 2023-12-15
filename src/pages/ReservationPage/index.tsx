@@ -42,8 +42,6 @@ export const ReservationPage = () => {
                 start: realStart,
                 type: type
             });
-            console.log(type)
-            console.log(invitee)
             if (response.status === 201) {
                 const data = await response.json();
                 if (data.status === 0) {
@@ -71,7 +69,7 @@ export const ReservationPage = () => {
             <Space direction='vertical' align='start' size={50} className={styled.list}>
                 <Space direction='horizontal' align='start' size={200}>
                     <p>会议名称: </p>
-                    <Input className={styled.input} value={id} onChange={(v) => { setId(v) }} allowClear placeholder='请输入会议名称' />
+                    <Input className={styled.input} onChange={(v) => { setId(v) }} allowClear placeholder='请输入会议名称' />
                 </Space>
                 <Space direction='horizontal' align='start'>
                     <p>开始时间: </p>

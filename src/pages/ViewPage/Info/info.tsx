@@ -15,7 +15,7 @@ interface IInformation {
 
 export const Information: FC<IInformation> = (param) => {
     const { state } = useLocation();
-
+    console.log(state)
     const navigator = useNavigate();
     const meetingInfo = param.meetings.map(meeting =>
         <div className={styled.meeting} key={meeting.id}>
@@ -30,6 +30,7 @@ export const Information: FC<IInformation> = (param) => {
             <IconCaretRight className={styled.arcoIcon} onClick={() => {
                 navigator('/conferenceInformation', {
                     state: {
+                        ...state,
                         meetingId: meeting.id,
                         name: meeting.name,
                         userID: param.userID,
@@ -37,7 +38,7 @@ export const Information: FC<IInformation> = (param) => {
                         start: meeting.startTimeLimit,
                         end: meeting.endTimeLimit,
                         interview: meeting.interview,
-                        ...state
+                        
                     }
                 })
             }} />

@@ -15,15 +15,16 @@ export const ConferenceInformation = () => {
     const handleCancelMeeting = async () => {
         try {
             const response = await deleteMeeting({ meetingId: state.meetingId });
-            if (response.status === 200) {
+            if (response.status === 201) {
                 const data = await response.json();
-                if (data.status === 1) {
+                if (data.status === 0) {
                     Message.success('会议已取消');
                     navigator('/viewPage', { state })
                 } else {
                     Message.error(data.message);
                 }
             } else {
+
                 const errorData = await response.json();
                 Message.error(errorData.message);
             }
@@ -41,7 +42,7 @@ export const ConferenceInformation = () => {
                 console.log(data)
                 if (data.code === 0) {
                     Message.success('会议已进入');
-                    navigator('/interview/room', { state })
+                    navigator('/room', { state })
                 } else {
                     Message.error(data.message);
                 }
@@ -55,7 +56,8 @@ export const ConferenceInformation = () => {
         }
     }
 
-    const handleEditMeeting = () => {
+    const handleEditMeeting = async () => {
+        await deleteMeeting({ meetingId: state.meetingId });
         navigator('/reservationPage', { state })
     }
 

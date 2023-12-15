@@ -11,7 +11,6 @@ import { useLocation } from "react-router-dom";
 
 export const Interview = () => {
     const { state } = useLocation();
-    console.log(state)
     // 进入视频会议后，我们拥有当前会议的id和本用户id
     // 去连接指定的房间id
     let myID = state.userID

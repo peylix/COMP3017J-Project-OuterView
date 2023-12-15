@@ -19,6 +19,7 @@ export const ViewPage = () => {
     console.log(state)
     const navigator = useNavigate();
     const [meetings, setMeetings] = useState<IMeeting[]>([])
+    console.log(meetings)
     const getMeetingsReq = async () => {
         const raw = await getUserMeetings({ userId: state.userId })
         if (raw.status === 200) {
