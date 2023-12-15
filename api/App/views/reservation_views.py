@@ -193,8 +193,8 @@ def get_into_room():
         return jsonify(response), 500
     
     
-@reservation_blue.route('/execute_code', methods=['POST'])
-def execute_code():
+@reservation_blue.route('/run_code', methods=['POST'])
+def run_code():
     try:
         data = request.json
         code = data.get('code')
