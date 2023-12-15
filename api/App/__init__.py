@@ -25,11 +25,11 @@ def create_app():
     # Configure the database
     # user_info = read_database()
     user_info = read_database()
-    USERNAME = user_info[0]
-    PASSWORD = user_info[1]
-    HOSTNAME = 'localhost'
-    PORT = '3306'
-    DATABASE = 'outerview'
+    USERNAME = os.environ.get('DB_USERNAME')
+    PASSWORD = os.environ.get('MYSQL_ROOT_PASSWORD')
+    HOSTNAME = os.environ.get('DB_HOST')
+    PORT = os.environ.get('DB_PORT')
+    DATABASE = os.environ.get('MYSQL_DATABASE')
     DB_URI = 'mysql+pymysql://{}:{}@{}:{}/{}'.format(
         USERNAME,
         PASSWORD,
