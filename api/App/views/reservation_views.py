@@ -361,6 +361,16 @@ def fetch_test_cases():
     return [
         {'id': 1, 'question': 'Complete the sum(a, b) function in Python', 'input': 'sum(1, 2)', 'expected_output': '3'},
         {'id': 2, 'question': 'Complete the difference(a, b) function in Python', 'input': 'difference(3, 2)', 'expected_output': '1'},
-
-        # ... more test cases ...
+        {'id': 3, 'question': 'Complete the product(a, b) function in Python', 'input': 'product(3, 2)', 'expected_output': '6'},
+        {'id': 4, 'question': 'Complete the quotient(a, b) function in Python', 'input': 'quotient(3, 2)', 'expected_output': '1.5'},
+        {'id': 5, 'question': 'Complete the remainder(a, b) function in Python', 'input': 'remainder(3, 2)', 'expected_output': '1'},
+        {'id': 6, 'question': 'Complete the power(a, b) function in Python', 'input': 'power(3, 2)', 'expected_output': '9'},
+        {'id': 7, 'question': 'Complete the sum(a, b) function in JavaScript', 'input': 'sum(1, 2)', 'expected_output': '3'},
+        {'id': 8, 'question': 'Complete the difference(a, b) function in JavaScript', 'input': 'difference(3, 2)', 'expected_output': '1'},
+        {'id': 9, 'question': 'Complete the product(a, b) function in JavaScript', 'input': 'product(3, 2)', 'expected_output': '6'},
+        {'id': 10, 'question': 'Complete the quotient(a, b) function in JavaScript', 'input': 'quotient(3, 2)', 'expected_output': '1.5'},
+        {'id': 11, 'question': 'Complete the remainder(a, b) function in JavaScript', 'input': 'remainder(3, 2)', 'expected_output': '1'},
+        {'id': 12, 'question': 'Complete the power(a, b) function in JavaScript', 'input': 'power(3, 2)', 'expected_output': '9'},
+        {'id': 13, 'question': 'Complete the sum(a, b) function in Ruby', 'input': 'sum(1, 2)', 'expected_output': '3'},
+        {'id': 14, 'question': 'Complete the difference(a, b) function in Ruby', 'input': 'difference(3, 2)', 'expected_output': '1'},
     ]
