@@ -29,18 +29,6 @@ class Reservation(db.Model):
     def __repr__(self):
         return f'{self.id}'
 
-# Create a ReservationDate class that corresponds to the 'reservation_date' table in the database
-# class ReservationDate(db.Model):
-#     __tablename__ = 'reservation_date'
-
-#     # Define columns in the 'reservation_date' table
-#     id = db.Column(db.Integer, primary_key=True)
-#     reservation_id = db.Column(db.Integer, db.ForeignKey('reservation.id'), nullable=False)
-#     date = db.Column(db.Date, default=None)
-
-#     def __repr__(self):
-#         return f'{self.id} + {self.reservation_id}'
-    
 
 # Create a Participant class that corresponds to the 'participant' table in the database
 class Participant(db.Model):
@@ -56,7 +44,6 @@ class Participant(db.Model):
     def to_dict(self):
             return self.user_id,
             
-    
 
     def __repr__(self):
         return f'{self.id} + {self.user_id} + {self.reservation_id}'

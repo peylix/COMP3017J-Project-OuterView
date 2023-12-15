@@ -1,6 +1,9 @@
 """
 Views for reservation
 """
+import os
+import subprocess
+import tempfile
 from flask import Blueprint, jsonify, request, render_template, abort
 from jinja2 import TemplateNotFound
 
@@ -188,3 +191,52 @@ def get_into_room():
             'status': 1
         }
         return jsonify(response), 500
+    
+    
+@reservation_blue.route('/execute_code', methods=['POST'])
+def execute_code():
+    try:
+        data = request.json
+        code = data.get('code')
+        language = data.get('language')
+
+        result = {}
+
+        if language == 'python':
+            # Python code execution
+            process = subprocess.Popen(['python', '-c', code], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            stdout, stderr = process.communicate()
+            result['output'] = stdout.decode()
+            result['error'] = stderr.decode()
+
+        elif language == 'java':
+            # Java code execution
+            with tempfile.NamedTemporaryFile(delete=False, suffix='.java') as src_file:
+                src_file.write(code.encode())
+                src_file.close()
+                class_file = src_file.name[:-5]
+                compile_process = subprocess.Popen(['javac', src_file.name], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                _, compile_err = compile_process.communicate()
+                if compile_process.returncode != 0:
+                    result['error'] = compile_err.decode()
+                else:
+                    run_process = subprocess.Popen(['java', '-cp', os.path.dirname(src_file.name), os.path.basename(class_file)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                    stdout, stderr = run_process.communicate()
+                    result['output'] = stdout.decode()
+                    result['error'] = stderr.decode()
+                os.remove(src_file.name)
+
+        elif language == 'javascript':
+            # JavaScript code execution
+            process = subprocess.Popen(['node', '-e', code], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            stdout, stderr = process.communicate()
+            result['output'] = stdout.decode()
+            result['error'] = stderr.decode()
+
+        else:
+            return jsonify({"error": "Unsupported language"}), 400
+
+        return jsonify(result)
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
