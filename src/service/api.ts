@@ -68,6 +68,12 @@ export const getInterviewees = async () => {
 export const postRunCode = async (params: {
     code: string
     language: string;
+    problem_id: number
 }) => {
     return await fetch('api/reservation/run_code', getConfig('POST', params))
+}
+
+
+export const getAllQuestion = async (params: any) => {
+    return await fetch('api/reservation/get_problem_list', getConfig('GET', params))
 }

@@ -46,5 +46,8 @@ python app.py
 * 前端
    ```npm run dev```
 
+* 开发模式需要开两个后端服务器
+* 一个用于预约(python实现)，一个用于会议（nodejs实现）
 * 后端
   ```npm run start-api```
+  ```npm run start-bff```
