@@ -236,7 +236,7 @@ def run_code():
         else:
             return jsonify({"error": "Unsupported language"}), 400
 
-        return jsonify(result)
+        return jsonify(result), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
