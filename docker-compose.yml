@@ -1,11 +1,38 @@
-version: "3"
+version: '3'
+
 services:
-
-
+  # Frontend Service
   web:
     build: .
-    command: npm run dev && cd backend && node app.js
     volumes:
       - .:/code
     ports:
       - "8000:8000"
+    command: npm run dev && cd backend && node app.js
+
+  # Backend Service
+  backend:
+    build: 
+      context: ./api
+      dockerfile: Dockerfile
+    env_file:
+    - ./api/.env
+    ports:
+      - "5100:5100" 
+    image: outerview-backend-image:latest
+    depends_on:
+      - db
+
+db:
+    image: mysql:latest  # 使用MySQL镜像作为初始化服务的基础镜像
+    env_file:
+    - ./api/.env
+    environment:
+      - MYSQL_HOST
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_DATABASE
+    # 将本地主机上的./init-scripts目录挂载到MySQL容器内的/docker-entrypoint-initdb.d
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./init-scripts:/docker-entrypoint-initdb.d
