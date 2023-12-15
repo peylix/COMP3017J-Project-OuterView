@@ -299,10 +299,6 @@ def run_code():
                 result['is_correct'] = expected_output.strip() == stdout.decode().strip()
                 print(code + '\n' + input_data)
 
-                
-
-            # ... [handle other languages]
-
             else:
                 return jsonify({"error": "Unsupported language"}), 400
 
