@@ -199,49 +199,112 @@ def run_code():
         data = request.json
         code = data.get('code')
         language = data.get('language')
+        problem_id = data.get('problem_id')  # ID of the programming problem
+        # Fetch test cases for the problem
+        test_cases = fetch_test_cases()
 
         result = {}
-
-        if language == 'python':
-            # Python code execution
-            process = subprocess.Popen(['python', '-c', code], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            stdout, stderr = process.communicate()
-            result['output'] = stdout.decode()
-            result['error'] = stderr.decode()
-
-
-        elif language == 'javascript':
-            # JavaScript code execution
-            process = subprocess.Popen(['node', '-e', code], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            stdout, stderr = process.communicate()
-            result['output'] = stdout.decode()
-            result['error'] = stderr.decode()
         
-        elif language == 'ruby':
-            # Ruby code execution
-            process = subprocess.Popen(['ruby', '-e', code], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            stdout, stderr = process.communicate()
-            result['output'] = stdout.decode()
-            result['error'] = stderr.decode()
+        if problem_id == -1:
 
-        elif language == 'lua':
-            # Lua code execution
-            process = subprocess.Popen(['luajit', '-e', code], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            stdout, stderr = process.communicate()
-            result['output'] = stdout.decode()
-            result['error'] = stderr.decode()
+            if language == 'python':
+                # Python code execution
+                process = subprocess.Popen(['python', '-c', code], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                stdout, stderr = process.communicate()
+                result['output'] = stdout.decode()
+                result['error'] = stderr.decode()
 
-        elif language == 'shell':
-            # Lua code execution
-            process = subprocess.Popen(['bash', '-c', code], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            stdout, stderr = process.communicate()
-            result['output'] = stdout.decode()
-            result['error'] = stderr.decode()
 
-        else:
-            return jsonify({"error": "Unsupported language"}), 400
+            elif language == 'javascript':
+                # JavaScript code execution
+                process = subprocess.Popen(['node', '-e', code], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                stdout, stderr = process.communicate()
+                result['output'] = stdout.decode()
+                result['error'] = stderr.decode()
+            
+            elif language == 'ruby':
+                # Ruby code execution
+                process = subprocess.Popen(['ruby', '-e', code], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                stdout, stderr = process.communicate()
+                result['output'] = stdout.decode()
+                result['error'] = stderr.decode()
+
+            elif language == 'lua':
+                # Lua code execution
+                process = subprocess.Popen(['luajit', '-e', code], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                stdout, stderr = process.communicate()
+                result['output'] = stdout.decode()
+                result['error'] = stderr.decode()
+
+            elif language == 'shell':
+                # Lua code execution
+                process = subprocess.Popen(['bash', '-c', code], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                stdout, stderr = process.communicate()
+                result['output'] = stdout.decode()
+                result['error'] = stderr.decode()
+
+            else:
+                return jsonify({"error": "Unsupported language"}), 400
+            
+        elif problem_id >= 0:
+
+            # Fetch the test case for the problem
+            input_data = test_cases[problem_id - 1]['input']
+            expected_output = test_cases[problem_id - 1]['expected_output']
+            
+
+            # Modify the execution based on the language
+            if language == 'python':
+                # Python code execution
+                process = subprocess.Popen(['python', '-c', code + '\n' + input_data], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                stdout, stderr = process.communicate()
+                result['output'] = stdout.decode()
+                result['error'] = stderr.decode()
+                result['is_correct'] = expected_output.strip() == stdout.decode().strip()
+                print(code + '\n' + input_data)
+                
+
+            # ... [handle other languages]
+
+            else:
+                return jsonify({"error": "Unsupported language"}), 400
+
 
         return jsonify(result), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+
+@reservation_blue.route('/get_problem', methods=['GET'])
+def get_problem():
+    try:
+        # Fetch the data as a string
+        data = request.json.get('problem_id')
+        # if data is None:
+        #     return jsonify({"error": "JSON data not provided"}), 400
+        problem_id = data
+        if problem_id == None:
+            return jsonify({"error": "problem_id not provided"}), 400
+        problem_id = int(problem_id)
+        # Fetch test cases for the problem
+        test_cases = fetch_test_cases()
+        if problem_id < 0:
+            return jsonify({"error": "problemId not valid"}), 401
+        if problem_id > len(test_cases):
+            return jsonify({"error": "problemId not valid"}), 402
+        result = {
+            "problem": test_cases[problem_id - 1]['question'],
+            "input": test_cases[problem_id - 1]['input'],
+            "expected_output": test_cases[problem_id - 1]['expected_output']
+        }
+        return jsonify(result), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+def fetch_test_cases():
+    return [
+        {'id': 1, 'question': 'Print "Hello World" in the terminal', 'input': 'sum(1, 2)', 'expected_output': '3'},
+        # ... more test cases ...
+    ]
