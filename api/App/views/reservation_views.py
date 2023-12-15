@@ -302,9 +302,28 @@ def get_problem():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@reservation_blue.route('/get_problem_list', methods=['GET'])
+def get_problem_list():
+    try:
+        test_cases = fetch_test_cases()
+        result = []
+        for i in range(len(test_cases)):
+            result.append({
+                "problem_id": i + 1,
+                "problem": test_cases[i]['question'],
+                "input": test_cases[i]['input'],
+                "expected_output": test_cases[i]['expected_output']
+            })
+        return jsonify(result), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 def fetch_test_cases():
     return [
-        {'id': 1, 'question': 'Print "Hello World" in the terminal', 'input': 'sum(1, 2)', 'expected_output': '3'},
+        {'id': 1, 'question': 'Complete the sum(a, b) function in Python', 'input': 'sum(1, 2)', 'expected_output': '3'},
+        {'id': 2, 'question': 'Complete the difference(a, b) function in Python', 'input': 'difference(3, 2)', 'expected_output': '1'},
+
         # ... more test cases ...
     ]
