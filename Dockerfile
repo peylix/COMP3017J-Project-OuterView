@@ -27,8 +27,3 @@ COPY  .  .
 #  安装依赖
 RUN  npm install
 
-#  暴露容器端口（请根据实际情况调整）
-EXPOSE  3999
-
-#  启动应用程序
-CMD  ["npm","run","dev"]
