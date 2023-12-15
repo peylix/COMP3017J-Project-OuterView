@@ -262,6 +262,43 @@ def run_code():
                 result['error'] = stderr.decode()
                 result['is_correct'] = expected_output.strip() == stdout.decode().strip()
                 print(code + '\n' + input_data)
+            
+            elif language == 'javascript':
+                # Python code execution
+                process = subprocess.Popen(['node', '-e', code + '\n' + input_data], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                stdout, stderr = process.communicate()
+                result['output'] = stdout.decode()
+                result['error'] = stderr.decode()
+                result['is_correct'] = expected_output.strip() == stdout.decode().strip()
+                print(code + '\n' + input_data)
+
+            elif language == 'ruby':
+                # Python code execution
+                process = subprocess.Popen(['ruby', '-e', code + '\n' + input_data], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                stdout, stderr = process.communicate()
+                result['output'] = stdout.decode()
+                result['error'] = stderr.decode()
+                result['is_correct'] = expected_output.strip() == stdout.decode().strip()
+                print(code + '\n' + input_data)
+            
+            elif language == 'lua':
+                # Python code execution
+                process = subprocess.Popen(['luajit', '-e', code + '\n' + input_data], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                stdout, stderr = process.communicate()
+                result['output'] = stdout.decode()
+                result['error'] = stderr.decode()
+                result['is_correct'] = expected_output.strip() == stdout.decode().strip()
+                print(code + '\n' + input_data)
+            
+            elif language == 'shell':
+                # Python code execution
+                process = subprocess.Popen(['bash', '-c', code + '\n' + input_data], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                stdout, stderr = process.communicate()
+                result['output'] = stdout.decode()
+                result['error'] = stderr.decode()
+                result['is_correct'] = expected_output.strip() == stdout.decode().strip()
+                print(code + '\n' + input_data)
+
                 
 
             # ... [handle other languages]
