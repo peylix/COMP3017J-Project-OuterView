@@ -209,26 +209,24 @@ def run_code():
             result['output'] = stdout.decode()
             result['error'] = stderr.decode()
 
-        elif language == 'java':
-            # Java code execution
-            with tempfile.NamedTemporaryFile(delete=False, suffix='.java') as src_file:
-                src_file.write(code.encode())
-                src_file.close()
-                class_file = src_file.name[:-5]
-                compile_process = subprocess.Popen(['javac', src_file.name], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-                _, compile_err = compile_process.communicate()
-                if compile_process.returncode != 0:
-                    result['error'] = compile_err.decode()
-                else:
-                    run_process = subprocess.Popen(['java', '-cp', os.path.dirname(src_file.name), os.path.basename(class_file)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-                    stdout, stderr = run_process.communicate()
-                    result['output'] = stdout.decode()
-                    result['error'] = stderr.decode()
-                os.remove(src_file.name)
 
         elif language == 'javascript':
             # JavaScript code execution
             process = subprocess.Popen(['node', '-e', code], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            stdout, stderr = process.communicate()
+            result['output'] = stdout.decode()
+            result['error'] = stderr.decode()
+        
+        elif language == 'ruby':
+            # Ruby code execution
+            process = subprocess.Popen(['ruby', '-e', code], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            stdout, stderr = process.communicate()
+            result['output'] = stdout.decode()
+            result['error'] = stderr.decode()
+
+        elif language == 'lua':
+            # Lua code execution
+            process = subprocess.Popen(['luajit', '-e', code], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             stdout, stderr = process.communicate()
             result['output'] = stdout.decode()
             result['error'] = stderr.decode()
