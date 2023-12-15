@@ -231,6 +231,13 @@ def run_code():
             result['output'] = stdout.decode()
             result['error'] = stderr.decode()
 
+        elif language == 'shell':
+            # Lua code execution
+            process = subprocess.Popen(['bash', '-c', code], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            stdout, stderr = process.communicate()
+            result['output'] = stdout.decode()
+            result['error'] = stderr.decode()
+
         else:
             return jsonify({"error": "Unsupported language"}), 400
 
