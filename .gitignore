@@ -33,10 +33,10 @@ api/App/views/__pycache__/
 api/migrations/
 api/.venv
 api/App/utils/database_user_info.txt
-report/report.aux
-report/report.fdb_latexmk
-report/report.fls
-report/report.out
-report/report.pyg
-report/report.synctex.gz
-report/report.toc
+api/report/report.aux
+api/report/report.fdb_latexmk
+api/report/report.fls
+api/report/report.out
+api/report/report.pyg
+api/report/report.synctex.gz
+api/report/report.toc

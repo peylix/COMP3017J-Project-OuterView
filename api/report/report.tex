@@ -16,6 +16,7 @@
 \usepackage{tabularx}
 \usepackage{longtable}
 \usepackage{fancyhdr}
+\usepackage{listings}
 
 
 % Other
@@ -75,6 +76,26 @@
     headheight=12pt,
     headsep=25pt,
     footskip=30pt
+}
+
+\usepackage{listings}
+\lstset{ %
+language=C++,                % choose the language of the code
+basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+numbers=left,                   % where to put the line-numbers
+numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+stepnumber=1,                   % the step between two line-numbers. If it is 1 each line will be numbered
+numbersep=5pt,                  % how far the line-numbers are from the code
+backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+frame=single,           % adds a frame around the code
+tabsize=2,          % sets default tabsize to 2 spaces
+captionpos=b,           % sets the caption-position to bottom
+breaklines=true,        % sets automatic line breaking
+breakatwhitespace=false,    % sets if automatic breaks should only happen at whitespace
+escapeinside={\%*}{*)}          % if you want to add a comment within your code
 }
 
 % ------------------------------------------------------------------------------
@@ -142,13 +163,38 @@ A summary of the changes made in each release is as follows:
         \item A glossary of terms was completed to clarify concepts related to professional terms used in the project.
         \item Completed the UI design and production of the front-end main page, reservation meeting page, and meeting information page.
         \item Implemented the backend logic related to sign up, login and reservation meeting and completed the corresponding database design.
+        \item Build the project foundation.
     \end{enumerate}
     \item Version 1.3
     \begin{enumerate}
         \item Completed system requirements definition.
         \item Updated document structure to improve organization and readability.
+        \item The front-end and back-end implementation of login registration function.
         \item Further improvements in the backend to meet the need of frontend.
         \item Completed the rendering and basic logic of the frontend main page, reservation meeting page, and meeting information page.
+    \end{enumerate}
+    \item Version 1.4
+    \begin{enumerate}
+        \item Completed an interaction diagram primarily based on sequence diagrams and a class diagram.
+        \item Completed interface specification related content.
+        \item Created partial content on system architecture and system design.
+        \item Completed the layout and style of the meeting room page, and integrated IDE and RTC.
+        \item Completed the front-end and partial back-end implementation of the IDE page.
+        \item Completed partial implementation of video calls.
+    \end{enumerate}
+    \item Version 1.5
+    \begin{enumerate}
+        \item Completed all aspects of system architecture and design.
+        \item Understood and completed the content of algorithms and data structures.
+        \item Completed the code implementation for video calls.
+        \item Completed all code implementations for the IDE page.
+    \end{enumerate}
+    \item Version 1.6
+    \begin{enumerate}
+        \item Completed the overall requirements of the project.
+        \item Completed all parts of the test cases and synchronized the refinement of the terminology to avoid potential ambiguity issues.
+        \item A comprehensive review and revision of the project report was conducted.
+        \item Each version of this document has been carefully prepared to provide a comprehensive and up-to-date overview of the technical interview platform requirements and customer question statements. The current version 1.6 is the most detailed and accurate representation of system requirements and objectives.
     \end{enumerate}
 \end{itemize}
 
@@ -173,6 +219,9 @@ By implementing this software system, I believe it will significantly improve th
   \item \textbf{Virtual Whiteboard:} A digital whiteboard that allows interviewers and candidates to visualize their technical conversations during interviews. 
   \item \textbf{Automated Test Cases:} Pre-written tests that evaluate a candidate’s code for correctness and efficiency. 
   \item \textbf{Playback Function:} A feature that allows interviewers to replay the entire interview after it has ended. 
+  \item \textbf{Not Start:} The meeting has not yet started, and the interviewee is waiting for the meeting.
+  \item \textbf{In progress:} The meeting is currently in progress, and the interviewees are in the meeting status.
+  \item \textbf{Completed:} The meeting has ended, and the interview is now in its current state.
 \end{itemize}
 
 
@@ -589,9 +638,212 @@ By implementing this software system, I believe it will significantly improve th
 
 \section{System Design}
 
+\subsection{Sequence Diagrams}
+
+\begin{figure}[H]
+  \center
+  \includegraphics[scale=0.21]{diagrams/UC4.png}
+  \caption{Use observer mode to check whether the user is in the meeting.}
+\end{figure}
+
+
+\begin{figure}[H]
+  \center
+  \includegraphics[scale=0.21]{diagrams/UC9.png}
+  \caption{Use the chain of responsibility pattern to let the interviewer and the interviewer work with the same compiler and pass code.}
+\end{figure}
+
+\begin{figure}[H]
+  \center
+  \includegraphics[scale=0.21]{diagrams/UC6.png}
+  \caption{The meeting room is created using Builder mode.}
+\end{figure}
+
+\subsection{Class Diagram}
+
+\begin{figure}[H]
+  \center
+  \includegraphics[scale=0.3]{diagrams/class-diagram.png}
+  \caption{Class Diagram}
+\end{figure}
+
+\subsubsection*{Description of Responsibilities}
+
+\begin{itemize}
+  \item \textbf{Meeting:} The Meeting class is a basic entity class. Its attributes include name, id, start time, and duration continue. The Meeting class contains the following methods: geter() method for each attribute and seter() method for each attribute excluding ID.
+  \item \textbf{MeetingService:} The MeetingService class is a basic entity class. Its properties are instance objects of the Meeting class. The MeetingService class includes the following methods: methods for browsing meeting lists, methods for browsing meeting information, methods for modifying meeting information, methods for adding and removing meetings.
+  \item \textbf{User:} The User class is a basic entity class, which is the parent class of the Interviewee class and the Interviewer class. Its properties include uid, name, email, password and type filled in during registration, where type is used to distinguish whether the user is an internee or an internee. The User class contains the following methods: getter() and setter() methods for each attribute, and getMeetingList() methods for obtaining the meeting list.
+  \item \textbf{Interviewee:} The Interviewee class is a basic entity class that is a subclass of the User class.
+  \item \textbf{Interviewer:} The Interviewer class is a basic entity class that is a subclass of the User class. In addition to reusing all methods of the parent class, the Interviewer class also has the setMeetingList (Meeting [*]) method for creating a meeting list.
+  \item \textbf{UserService:} The UserService class is a basic entity class. Its property is an instance object of the User class. The UserService class includes the following methods: registration and login for users when entering the application, as well as logout methods when exiting the application.
+  \item \textbf{Interview:} The View class is a basic entity class. Its properties include programming language, question, answer duration timer, and answer. The Interview class contains the following methods: geter() methods for each property and seter() methods for each property that removes timers.
+  \item \textbf{InterviewService:} The InterviewService class is a basic entity class. Its property is an instance object of the Interview class. The InterviewService class includes the following methods: the language selection method choseLanguage (Integer), and methods for managing interviews and editing code.
+  \item \textbf{SystemController:} The SystemController class is a basic entity class. Its properties are instance objects of the UserService class and the MeetingService class. The SystemController class includes several methods: registration and login for users when entering the application, as well as logout methods when exiting the application. The browsing methods for meeting lists and meeting information. For the inquiry method modified during the meeting, for the inquiry method modified during the interview, and for updating the display method.
+\end{itemize}
+
+\subsection{System Architecture and System Design}
+
+\subsubsection*{Architectural Styles}
+\begin{itemize}
+  \item \textbf{Frontend:} The front-end uses the React framework to generate SPA (Single Page Application), which requests the back-end to return JSON data and then renders it by the front-end framework. The front end uses tsx based on typescript to generate html templates, typescript is used to execute the script language and control the front-end logic, and moduleCSS+tailwindCSS is used to generate the style sheet. Use the webRTC interface that comes with the browser to read the audio and video streams. After entering the room, the front and back ends will use socket.io to establish a full-duplex P2P connection.
+  \item \textbf{Backend:} The backend of the platform makes use of Flask as its framework to support all the functionalities, from creating an account to making a meeting appointment. It uses SQL Alchemy to make it easier and clearer to generate database models. 
+\end{itemize}
+
+\subsubsection*{UML Package Diagram of Subsystems}
+\begin{figure}[H]
+  \center
+  \includegraphics[scale=0.3]{diagrams/package-diagram.png}
+  \caption{Package Diagram}
+\end{figure}
+
+\subsubsection*{Database Schema of the System}
+There are three tables in the database: \verb|user|, \verb|reservation| and \verb|reservation\_participant|. The \verb|user| table is for storing data related to the user account of this platform (user ID, password, name, type of user, etc.), with \verb|user\_id| as its primary key, identifying each user. The \verb|reservation| table is for storing data related to the information of meetings. Its attributes involve the name, start time, end time, state, details and date of a meeting. The table uses an auto-increment ID serving as the primary key to identify each meeting. The \verb|reservation\_participant| table is a helper table for remembering the relationship of users and meetings, that is, the number of users involved in a meeting. It has an auto-increment ID as its primary key.
+
+The design of the database meets the requirements of the Boyce-Codd normal form. Each table has a primary key, and all attributes in each table are functionally dependent on their respective primary keys, which are also superkeys. This eliminates redundancy and updates anomalies by ensuring every non-trivial functional dependency is on a superkey.
+
+\subsubsection*{Global Control Flow of the System}
+The user registers an account, and the system backend creates a new account and stores it in the database. When the user logs in, the backend verifies that the password is correct. If the password is incorrect, an error message is returned. If the password is correct, the user enters the main page.
+
+On the main page, the system displays the user's nickname and identity, as well as a button to return to the login interface, displays user-related meeting information, and the interviewer additionally displays a button to schedule a meeting.
+
+When the interviewer clicks the reservation button, the system will jump to the reservation page. The system will display the meeting-related information fill-in column. After the interviewer fills in the relevant information, click the reservation button to create the meeting. The system will navigate to the main meeting page and re-render the meeting information.
+
+When the user clicks the meeting information icon, the system will jump to the meeting information page, where the system displays meeting-related information.
+
+On the meeting information page, the interviewer clicks the Cancel Meeting button to cancel the meeting, and the system navigates to the main page and re-renders the meeting information.
+
+On the meeting information page, the interviewer clicks the Edit meeting button to edit the meeting, and the system navigates to the reservation page. After the interviewer refills the information, the system navigates to the main page and re-renders the meeting information.
+
+In the meeting information page, the user clicks the Enter meeting button, and the system navigates to the meeting page.
+
+After clicking to join the interview, the backend will verify whether the user is in this interview. If not in the interview, the user is allowed to enter the interview room page.
+
+After entering the interview room page, the interviewer/interviewer needs to click a button to turn on his or her camera and microphone.
+
+If the network is normal, the connection will be established and the interviewer/interviewer can see the other party's ID, screen and share the IDE.
+
+\subsubsection*{Hardware Requirements}
+\begin{itemize}
+  \item \textbf{Minimal configuration:} 
+  \begin{enumerate}
+    \item The device can run the chrome browser.
+    \item The device can access the Internet (for P2P connection establishment)
+  \end{enumerate}
+  \item \textbf{Optimal configuration:} Available camera/microphone to enable video and audio streaming, called via Chrome browser.
+\end{itemize}
+
+\subsubsection*{Algorithms and Data Structures in the System: HashTable}
+\begin{lstlisting}
+// Save all connections
+const clients = {};
+setInterval(() => {
+for (const client in clients) {
+  clients[client].ws.emit('updateAllClients', {
+    data: Object.keys(clients),
+    })
+  }
+}, 2000)
+\end{lstlisting}
+User (client) related information, including socket instance object, room id and user id are stored in the clients object.
+
+The key is the user's id, and the value is user-related information.
+\begin{lstlisting}
+switch (message.type) {
+  case "connect":
+    // Save the connected clients
+    clientID = message.data.myID;
+    roomID = message.data.roomID
+    console.log(`${clientID} has connected in ${roomID}`)
+    clients[clientID] = {
+      clientID,
+      roomID,
+      ws,
+    };
+    ...
+}
+\end{lstlisting}
+When a user initiates a video stream push to another user, the socket instance object of the other user is obtained through the clientID, and the emit method is called to trigger the event.
+
+Using hashTable to store information makes the structure clear and improves access efficiency.
+
+\subsection{Design of Tests}
+\begin{enumerate}
+  \item \textbf{Unit Testing:}
+  \begin{itemize}
+    \item Test Case 1: Browser-based IDE Functionality
+    \begin{itemize}
+      \item Description: Verify that the browser-based IDE allows candidates to write, execute, and debug code.
+      \item Steps: 
+      \begin{enumerate}
+        \item Open the IDE
+        \item Write code in different programming languages.
+        \item Execute and debug code within the IDE.
+        \item Ensure proper error handling.
+      \end{enumerate}
+    \end{itemize}
+  \end{itemize}
+  \begin{itemize}
+    \item Test Case 2: Multi-language Support
+    \begin{itemize}
+      \item Description: Confirm that the platform supports multiple programming languages.
+      \item Steps: 
+      \begin{enumerate}
+        \item Write and execute code in different programming languages.
+        \item Verify language-specific features (e.g., syntax highlighting).
+        \item Ensure smooth transitions between languages.
+      \end{enumerate}
+    \end{itemize}
+  \end{itemize}
+  \begin{itemize}
+    \item Test Case 3: Video and Audio Interviewing
+    \begin{itemize}
+      \item Description: Test the functionality of video and audio interviewing.
+      \item Steps: 
+      \begin{enumerate}
+        \item Initiate a video interview session.
+        \item Confirm video and audio feeds are working.
+        \item Test mute/unmute and video on/off functionalities.
+        \item Verify the quality of audio and video.
+      \end{enumerate}
+    \end{itemize}
+  \end{itemize}
+  \begin{itemize}
+    \item Test Case 4: Interview Scheduling and Management
+    \begin{itemize}
+      \item Description: Ensure interview scheduling and management features work correctly.
+      \item Steps: 
+      \begin{enumerate}
+        \item Schedule an interview for a specific date and time.
+        \item Confirm notifications are sent to interviewers and candidates.
+        \item Check rescheduling and cancellation functionalities.
+      \end{enumerate}
+    \end{itemize}
+  \end{itemize}
+  \item \textbf{Test Coverage:}
+  \begin{itemize}
+    \item Aim to cover all critical functions of the browser-based IDE, video/audio interviewing and scheduling.
+    \item Ensure each supported programming language is tested.
+  \end{itemize}
+  \item \textbf{Integration Testing Strategy:}
+  \begin{itemize}
+    \item Integrate components to ensure they work together seamlessly.
+    \item Verify communication between the browser-based IDE, video and audio functions and scheduling features.
+    \item Test the system's ability to handle multiple users in a live interview scenario.
+  \end{itemize}
+  \item \textbf{Integration Testing Plans:}
+  \begin{itemize}
+    \item Steps:
+    \begin{enumerate}
+      \item Conduct end-to-end testing of a complete interview session.
+      \item Simulate concurrent users accessing the platform.
+      \item Test interruptions and resume functionality during an ongoing interview.
+      \item Check for compatibility with different browsers and devices.
+    \end{enumerate}
+  \end{itemize}
+\end{enumerate}
+
 \subsection{User Interface Design}
 
-\subsubsection*{User Interface Prototype}
 
 \subsubsection*{User Interface Description}
 
@@ -604,6 +856,7 @@ The user interface is divided into four main parts: \textit{Sign Up/Login}, \tex
   \item \textbf{Booking a Meeting:} After clicking to schedule a meeting, the user needs to fill in the following information for this meeting in a new page: \textit{meeting name (the default name is "username's scheduled meeting")}, \textit{start time}, \textit{duration of the meeting (options are: 30min, 45min, 60min)} and \textit{the invitees}. This column requires an ID. The user clicks \textit{Complete Appointment} below the page to end information filling. After completed, the user will return to the main page and see the newly scheduled meeting in the \textit{Meeting Schedule} on the right side of the page.
 \end{itemize}
 
+\subsubsection*{User Interface Prototype}
 \begin{figure}[H]
   \center
   \includegraphics[scale=0.18]{diagrams/ui-prototype-1.png}
@@ -621,15 +874,30 @@ The user interface is divided into four main parts: \textit{Sign Up/Login}, \tex
 \subsection{Team Agreement}
 \begin{itemize}
   \item \textbf{Meeting Time:} Every Monday at 9pm and every Friday at 5pm.
-  \item \textbf{Code Managing:} This project uses git to manage the source code and other related resources. 
+  \item \textbf{Code Management:} This project uses git to manage the source code and other related resources. 
   A private repository on GitHub is used for hosting code and team collaboration. Commit message should be 
   clear and follow the convention like \par \verb|<type>[optional scope]: <description>|. Any changes that may be 
   deemed destructive should be made on a separate branch and then merged to the main branch after stabilized 
-  and being reviewed by at least one other team member.
+  and being reviewed by at least one other team member. All backend code should be tested using Apifox before 
+  submitted.
+  \begin{figure}[H]
+    \center
+    \includegraphics[scale=0.15]{diagrams/apifox.png}
+    \caption{Using Apifox to test APIs}
+  \end{figure}
   \item \textbf{Details for Cooperation:} A clear API document with detailed comments should be provided by the 
   team members who is responsible for the backend. The backend developers and frontend developers should work 
   closely together.
+  \item \textbf{Overall Management:} In order to better manage tasks and project progress, a Gantt chart was 
+  created so that the phased progress of the project and the task allocation of each member can be clearly seen. 
+  Not only does this help track overall progress, but it also provides clear direction for team members so they can 
+  better understand the overall framework of the project and their own roles.
+
+  The Gantt chart can be found in 
+  
+  \url{https://cs9lscied6.feishu.cn/share/base/view/shrcnWfsEBhYGWS0lAVpVeuKQTd}
 \end{itemize}
+
 \subsection{Division of Work}
 Frontend: 
 \begin{itemize}
@@ -643,6 +911,10 @@ Backend:
   \item Ziqin Ma
 \end{itemize}
 
-\textit{*The division of work part will be further elaborated in future version of the document as the project progresses.}
+The detailed division and contribution of each member is as follows:
+\begin{figure}[H]
+  \center
+  \includegraphics[scale=0.25]{diagrams/contribution.png}
+\end{figure}
 
 \end{document}
