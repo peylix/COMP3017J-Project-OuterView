@@ -5,7 +5,6 @@ from flask import Flask
 from dotenv import load_dotenv
 from .views.user_views import user_blue
 from .views.reservation_views import reservation_blue
-from .utils.database_utils import read_database;
 from .exts import init_exts
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # Project root directory
@@ -23,8 +22,6 @@ def create_app():
     app.register_blueprint(blueprint=reservation_blue, url_prefix='/reservation')
     app.config['SECRET_KEY'] = '123'  # Configure the session secret
     # Configure the database
-    # user_info = read_database()
-    user_info = read_database()
     USERNAME = os.environ.get('DB_USERNAME')
     PASSWORD = os.environ.get('MYSQL_ROOT_PASSWORD')
     HOSTNAME = os.environ.get('DB_HOST')

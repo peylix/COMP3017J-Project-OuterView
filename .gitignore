@@ -32,11 +32,5 @@ api/App/utils/__pycache__/
 api/App/views/__pycache__/
 api/migrations/
 api/.venv
-api/App/utils/database_user_info.txt
-report/report.aux
-report/report.fdb_latexmk
-report/report.fls
-report/report.out
-report/report.pyg
-report/report.synctex.gz
-report/report.toc
+
+api/.ENV

@@ -1,6 +1,8 @@
 # OuterView
 ### *An online technical interview platform for interviewers and interviewees to write, run and debug code together in an elegant manner.*
 
+OuterView provides its users with the ability to schedule meetings, make video and audio calls, co-write and run code, and test the code with preset test sets.
+
 Group members (in alphabetical order): 
 + Jiehongxu Wu (吴界红旭), 
 + Sichen Li (李思辰), 
@@ -19,13 +21,13 @@ Group members (in alphabetical order):
 yarn install
 ```
 
-### For setting up the databasem:
+### For setting up the database:
 
 **1. Create a database in your database management system (in this case, MySQL)**
 ```SQL
 CREATE DATABASE outerview;
 ```
-**2. Remember to change the password in __init__.py!**
+**2. Remember to change the password in `.ENV`!**
 
 **3. Initialize and migrate the database:** 
 ```shell
@@ -42,12 +44,21 @@ flask db upgrade
 python app.py
 ```
 
-### 开发模式
-* 前端
-   ```npm run dev```
+## 开发模式
 
-* 开发模式需要开两个后端服务器
-* 一个用于预约(python实现)，一个用于会议（nodejs实现）
-* 后端
-  ```npm run start-api```
-  ```npm run start-bff```
+### 前端
+   ```shell
+   npm run dev
+   ```
+
+### 后端
+
++ 开发模式需要开两个后端服务器
++ 一个用于预约(python实现)，一个用于会议（nodejs实现）
+
+  ```shell
+  npm run start-api
+  ```
+  ```shell
+  npm run start-bff
+  ```
