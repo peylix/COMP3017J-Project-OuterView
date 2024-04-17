@@ -1,7 +1,9 @@
 # OuterView
 ### *An online technical interview platform for interviewers and interviewees to write, run and debug code together in an elegant manner.*
 
-OuterView provides its users with the ability to schedule meetings, make video and audio calls, co-write and run code, and test the code with preset test sets.
+**OuterView** enables users to schedule online meetings, make video and audio calls, and collaboratively write, run, and test code using preset test sets.
+
+This project is developed for *COMP3017J Software Methodology*.
 
 Group members (in alphabetical order): 
 + Jiehongxu Wu (吴界红旭), 
@@ -11,54 +13,65 @@ Group members (in alphabetical order):
 + Ziqin Ma (马子秦). 
 
 
-## 部署要求
+## Deployment
 
-**Flask 2.3.x, MySQL 8.1.x, Python 3.11.x, Yarn 1.x**
+### Recommended Environment
 
-### 前端安装依赖
++ **Node.js v20.x**
++ **Python 3.11.x**
++ **MySQL 8.1.x**
++ **Yarn 1.x**
+
+### Install packages for the frontend
 
 ```shell
 yarn install
 ```
 
-### For setting up the database:
+### Set up the database for the backend
 
-**1. Create a database in your database management system (in this case, MySQL)**
-```SQL
-CREATE DATABASE outerview;
-```
-**2. Remember to change the password in `.ENV`!**
+0. **Remember to change the password in `.ENV`!**
 
-**3. Initialize and migrate the database:** 
-```shell
-flask db init
-```
-```shell
-flask db migrate
-```
-```shell
-flask db upgrade
-```
-**4. Finally, run the server:** 
-```shell
-python app.py
-```
-
-## 开发模式
-
-### 前端
-   ```shell
-   npm run dev
+1. **Create a database in your database management system (in this case, MySQL)**
+   ```SQL
+   CREATE DATABASE outerview;
    ```
 
-### 后端
+2. **Initialize the database and migrate** 
+   ```shell
+   flask db init
+   ```
+   ```shell
+   flask db migrate
+   ```
+   ```shell
+   flask db upgrade
+   ```
 
-+ 开发模式需要开两个后端服务器
-+ 一个用于预约(python实现)，一个用于会议（nodejs实现）
+3. **Finally, you can run the server** 
+   ```shell
+   python app.py
+   ```
 
-  ```shell
-  npm run start-api
-  ```
-  ```shell
-  npm run start-bff
-  ```
+## Run the project (in dev mode)
+
+### Start the frontend server
+
+```shell
+npm run dev
+```
+
+### Start the backend server
+
++ *Two* backend servers are required for running the project.
++ One for the online video meeting functionality (based on Node.js/Koa) and one for handling all the other stuff (based on Python/Flask).
+
+```shell
+# Start the Flask sever
+npm run start-api
+```
+
+```shell
+# Start the Node.js server
+npm run start-bff
+```
